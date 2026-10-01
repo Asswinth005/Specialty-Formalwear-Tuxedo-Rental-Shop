@@ -1,0 +1,95 @@
+:root {
+  color-scheme: light;
+  --page-bg: #f8f6f2;
+  --surface: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #9b2c2c;
+  --accent-hover: #742a2a;
+  --footer-bg: #0f172a;
+  --footer-text: #cbd5e1;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #0f172a;
+  --surface: #172235;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --border: #334155;
+  --accent: #e05a5a;
+  --accent-hover: #f07878;
+  --footer-bg: #030712;
+  --footer-text: #cbd5e1;
+}
+
+* { box-sizing: border-box; }
+body { min-height: 100vh; margin: 0; display: flex; flex-direction: column; background: var(--page-bg); color: var(--text); }
+a { color: inherit; text-decoration: none; }
+button { color: inherit; font: inherit; }
+.site-header { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--surface) 88%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(14px); }
+.header-inner { width: min(1440px, 100%); height: 72px; padding: 0 28px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+.brand { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; }
+.brand-mark { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 6px; background: #111827; color: #fff; font-size: 20px; }
+.brand-words { display: grid; gap: 3px; }
+.brand-title { color: #111827; font-size: 18px; font-weight: 800; line-height: 1; }
+html[data-theme="dark"] .brand-title { color: #f8fafc; }
+.brand-title em { color: var(--accent); font-style: normal; }
+.brand-caption { color: var(--muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.desktop-nav { display: flex; align-items: center; gap: 21px; }
+.nav-link, .dropdown-trigger { padding: 9px 0; border: 0; background: transparent; color: var(--text); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.nav-link:hover, .dropdown-trigger:hover, .nav-link.is-active, .dropdown-trigger.is-active { color: var(--accent); }
+.dropdown { position: relative; }
+.dropdown-trigger::after { content: "⌄"; margin-left: 6px; }
+.dropdown-menu { position: absolute; top: calc(100% + 7px); left: -12px; z-index: 40; min-width: 180px; padding: 7px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 16px 35px rgb(15 23 42 / 14%); opacity: 0; visibility: hidden; transform: translateY(5px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu, .dropdown.is-open .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-menu a { display: block; padding: 10px 14px; color: var(--text); font-size: 13px; }
+.dropdown-menu a:hover, .dropdown-menu a[aria-current="page"] { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); color: var(--accent); }
+.header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.icon-button { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); cursor: pointer; }
+.icon-button:hover { color: var(--accent); border-color: var(--accent); }
+.sign-in { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; padding: 0 23px; border-radius: 24px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.sign-in:hover { background: var(--accent-hover); }
+.mobile-toggle { display: none; width: 42px; height: 42px; place-items: center; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 21px; cursor: pointer; }
+.mobile-panel { display: none; width: 100%; padding: 12px 20px 20px; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 16px 30px rgb(15 23 42 / 10%); }
+.mobile-panel.is-open { display: block; }
+.mobile-link, .mobile-group-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 4px; border: 0; border-bottom: 1px solid var(--border); background: transparent; color: var(--text); text-align: left; font-size: 14px; font-weight: 600; cursor: pointer; }
+.mobile-link:hover, .mobile-group-toggle:hover, .mobile-link.is-active { color: var(--accent); }
+.mobile-submenu { display: none; padding: 4px 0 7px 15px; border-bottom: 1px solid var(--border); }
+.mobile-submenu.is-open { display: grid; }
+.mobile-submenu a { padding: 9px 4px; color: var(--muted); font-size: 13px; }
+.mobile-submenu a:hover, .mobile-submenu a[aria-current="page"] { color: var(--accent); }
+.mobile-tools { display: flex; gap: 10px; padding: 16px 0 8px; }
+.mobile-tools .icon-button { flex: 1; width: auto; display: flex; gap: 8px; }
+.mobile-panel .sign-in { width: 100%; margin-top: 12px; }
+.page-main { flex: 1; min-height: 32vh; }
+.site-footer { padding: 54px 28px 0; background: var(--footer-bg); color: var(--footer-text); }
+.footer-grid { width: min(1280px, 100%); margin: auto; padding-bottom: 38px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 42px; border-bottom: 1px solid #334155; }
+.footer-brand { display: inline-flex; align-items: center; gap: 11px; }
+.footer-brand .brand-mark { background: #fff; color: #111827; }
+.footer-brand .brand-title { color: #fff; }
+.footer-brand .brand-caption { color: #94a3b8; }
+.footer-about { max-width: 310px; margin: 17px 0 0; color: #94a3b8; font-size: 13px; line-height: 1.7; }
+.footer-heading { margin: 3px 0 17px; color: #e7c88c; font-size: 14px; }
+.footer-links { display: grid; gap: 12px; }
+.footer-links a, .footer-contact { color: #cbd5e1; font-size: 13px; line-height: 1.7; }
+.footer-links a:hover, .footer-contact a:hover { color: #fff; }
+.footer-contact p { margin: 0 0 9px; }
+.footer-bottom { width: min(1280px, 100%); margin: auto; padding: 20px 0; color: #94a3b8; text-align: center; font-size: 12px; }
+@media (max-width: 1200px) {
+  .header-inner { padding: 0 20px; }
+  .desktop-nav, .header-actions { display: none; }
+  .mobile-toggle { display: grid; }
+  .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; }
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .header-inner { height: 66px; padding: 0 15px; }
+  .brand-title { font-size: 16px; }
+  .brand-mark { width: 36px; height: 36px; }
+  .site-footer { padding: 40px 20px 0; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .page-main { min-height: 24vh; }
+}

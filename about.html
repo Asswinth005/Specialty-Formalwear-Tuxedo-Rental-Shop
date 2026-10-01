@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg?v=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>About Us · Black Tie House</title>
+
+    <script src="tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['class', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-text': 'var(--color-primary-text)',
+                        'secondary-text': 'var(--color-secondary-text)',
+                        accent: 'var(--color-accent)',
+                        'accent-light': 'var(--color-accent-light)',
+                        'accent-dark': 'var(--color-accent-dark)',
+                        border: 'var(--color-border)',
+                        hover: 'var(--color-hover)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root, html[data-theme='light'] {
+            --color-background: #FFFFFF;
+            --color-primary-text: #0F172A;
+            --color-secondary-text: #475569;
+            --color-accent: #9B2C2C;
+            --color-accent-light: #C53030;
+            --color-accent-dark: #742A2A;
+            --color-border: #E2E8F0;
+            --color-hover: #F8FAFC;
+            --color-footer-bg: #0F172A;
+            --color-footer-text: #FFFFFF;
+            --header-bg: rgba(255, 255, 255, 0.85);
+        }
+        html[data-theme='dark'] {
+            --color-background: #0F172A;
+            --color-primary-text: #F8FAFC;
+            --color-secondary-text: #94A3B8;
+            --color-accent: #E53E3E;
+            --color-accent-light: #FC8181;
+            --color-accent-dark: #C53030;
+            --color-border: #1E293B;
+            --color-hover: #1E293B;
+            --color-footer-bg: #030712;
+            --color-footer-text: #FFFFFF;
+            --header-bg: rgba(15, 23, 42, 0.85);
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-primary-text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .about-hero {
+            background: linear-gradient(125deg, rgba(155, 44, 44, 0.12), rgba(248, 250, 252, 0.88) 52%, var(--color-background));
+        }
+        html[data-theme='dark'] .about-hero {
+            background: linear-gradient(125deg, rgba(229, 62, 62, 0.18), rgba(30, 41, 59, 0.92) 52%, var(--color-background));
+        }
+        .about-hero-mark {
+            position: absolute;
+            z-index: 0;
+            color: var(--color-accent);
+            opacity: 0.16;
+            pointer-events: none;
+        }
+        .about-hero-mark-gem { left: 8%; top: 24%; font-size: 4rem; transform: rotate(-12deg); }
+        .about-hero-mark-shirt { right: 8%; top: 20%; font-size: 4.5rem; transform: rotate(9deg); }
+        .about-hero-mark-award { left: 17%; bottom: 18%; font-size: 3rem; transform: rotate(-14deg); }
+        .about-hero-mark-ruler { right: 17%; bottom: 18%; font-size: 3rem; transform: rotate(12deg); }
+        @media (max-width: 640px) {
+            .about-hero-mark { display: none; }
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--color-background); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+        .text-primary-text { color: var(--color-primary-text); }
+        .text-secondary-text { color: var(--color-secondary-text); }
+        .text-accent { color: var(--color-accent); }
+        .bg-background { background-color: var(--color-background); }
+        .bg-hover { background-color: var(--color-hover); }
+        .bg-accent { background-color: var(--color-accent); }
+        .border-border { border-color: var(--color-border); }
+        .border-accent { border-color: var(--color-accent); }
+        .hover\:text-accent:hover { color: var(--color-accent) !important; }
+
+        #main-header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        #main-footer {
+            background-color: var(--color-footer-bg);
+            color: var(--color-footer-text);
+        }
+        #main-footer .footer-heading { color: var(--color-accent) !important; }
+        #main-footer .footer-link:hover { color: var(--color-accent); padding-left: 4px; transition: all 0.2s ease; }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 2.5px;
+            background-color: var(--color-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            border-radius: 4px;
+        }
+        .nav-link:hover:not(.active)::after { transform: scaleX(1); }
+        .nav-link.active { color: var(--color-accent) !important; }
+
+        .mobile-nav-link {
+            color: var(--color-primary-text);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+        .mobile-nav-link:hover { color: var(--color-accent); background-color: var(--color-hover); }
+        .mobile-nav-link.active {
+            color: var(--color-accent) !important;
+            background-color: rgba(155, 44, 44, 0.08);
+            font-weight: 700 !important;
+            border-left: 3.5px solid var(--color-accent);
+            padding-left: 0.85rem !important;
+        }
+        html[data-theme='dark'] .mobile-nav-link.active { background-color: rgba(229, 62, 62, 0.15); }
+        html[dir='rtl'] .mobile-nav-link.active {
+            border-left: none;
+            border-right: 3.5px solid var(--color-accent);
+            padding-left: 0.75rem !important;
+            padding-right: 0.85rem !important;
+        }
+        .mobile-nav-sublink { transition: all 0.2s ease; }
+        .mobile-nav-sublink:hover, .mobile-nav-sublink.active {
+            color: var(--color-accent) !important;
+            font-weight: 600 !important;
+        }
+
+        .dropdown-wrapper { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            padding: 0.4rem 0;
+        }
+        .dropdown-wrapper:hover .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+            display: block;
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            color: var(--color-primary-text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .dropdown-menu a:last-child { border-bottom: none; }
+        .dropdown-menu a:hover {
+            background-color: var(--color-hover);
+            color: var(--color-accent);
+            padding-left: 1.5rem;
+        }
+        .dropdown-menu a.active { color: var(--color-accent); }
+        .dropdown-menu a i { width: 20px; color: var(--color-accent); margin-right: 8px; }
+
+        @media (max-width: 1024px) {
+            .dropdown-menu { position: static; display: none; opacity: 1; visibility: visible; transform: none; box-shadow: none; }
+            .dropdown-wrapper:hover .dropdown-menu { display: block; }
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            background: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(155, 44, 44, 0.35);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-outline {
+            background: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-outline:hover {
+            background: var(--color-accent);
+            color: white;
+            box-shadow: 0 4px 16px rgba(155, 44, 44, 0.25);
+            transform: translateY(-2px);
+        }
+        .btn-outline:active { transform: translateY(0); }
+        html[data-theme='dark'] .btn-outline:hover { background: var(--color-accent); color: #fff; }
+
+        .feature-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(155, 44, 44, 0.12);
+            border-color: var(--color-accent);
+        }
+        .feature-card .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: rgba(155, 44, 44, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--color-accent);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover .icon-circle { transform: scale(1.1); }
+        html[data-theme='dark'] .feature-card .icon-circle { background: rgba(229, 62, 62, 0.2); }
+
+        .testimonial-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            border-color: var(--color-accent);
+        }
+
+        .img-placeholder {
+            background: var(--color-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--color-secondary-text);
+            min-height: 180px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+        }
+        html[data-theme='dark'] .img-placeholder { background-color: #1E293B; }
+
+        /* About-specific: stat counter animation */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Timeline */
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--color-border);
+            transform: translateX(-50%);
+        }
+        html[data-theme='dark'] .timeline-line { background: var(--color-secondary-text); }
+        .timeline-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            border: 3px solid var(--color-background);
+            box-shadow: 0 0 0 3px var(--color-accent);
+            position: absolute;
+            left: 20px;
+            transform: translateX(-50%);
+            top: 2rem;
+            z-index: 2;
+        }
+        @media (min-width: 1024px) {
+            .timeline-line { left: 50%; }
+            .timeline-dot { left: 50%; }
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- ======== HEADER / NAVIGATION ======== -->
+    <header class="sticky top-0 z-50 transition-colors duration-300 shadow-md border-b border-border bg-background" id="main-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between h-[72px]">
+            <a href="index.html" class="flex items-center gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-extrabold tracking-tight text-primary-text leading-none font-sans">Black Tie</span>
+                        <span class="text-2xl font-extrabold tracking-tight text-accent leading-none font-sans ml-1.5">House</span>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-[0.15em] text-secondary-text uppercase mt-1">Formalwear &amp; Tuxedo</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden xl:flex items-center space-x-5">
+                <div class="flex space-x-4 rtl:space-x-reverse rtl:ml-6 text-primary-text font-medium">
+                    <div class="dropdown-wrapper">
+                        <button class="nav-link home-nav-link flex items-center">
+                            Home <svg class="w-3 h-3 ml-1 relative top-[2px] transition-transform duration-200 text-primary-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html">Home 1</a>
+                            <a href="home2.html">Home 2</a>
+                        </div>
+                    </div>
+                    
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="shop.html" class="nav-link">Shop the Collection</a>
+                    <a href="group-orders.html" class="nav-link">Group Orders</a>
+                    <a href="appointments.html" class="nav-link">Fitting Appointments</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    
+                    <div class="dropdown-wrapper">
+                        <button class="nav-link flex items-center">
+                            Dashboard <svg class="w-3 h-3 ml-1 relative top-[2px] transition-transform duration-200 text-primary-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="client.html">Client</a>
+                            <a href="admin.html">Admin</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-px h-6 bg-border mx-2"></div>
+
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" class="text-primary-text hover:text-accent p-2 rounded-md border border-border transition duration-200">
+                        <svg class="w-5 h-5 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 dark-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                    <button id="rtl-toggle" class="text-primary-text hover:text-accent p-2 rounded-md border border-border transition duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
+                    </button>
+
+                    <div class="flex items-center gap-2 ml-2">
+                        <a href="login.html" class="btn-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-sm hover:shadow-lg transition-all duration-200">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="xl:hidden flex items-center">
+                <button id="mobile-menu-open" class="text-primary-text hover:text-accent p-1.5 rounded-full">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main class="flex-grow">
+
+        <!-- ======== HERO / BREADCRUMB ======== -->
+        <section class="about-hero border-b border-border py-28 lg:py-32 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-2xl"></div>
+            <i class="fa-solid fa-gem about-hero-mark about-hero-mark-gem" aria-hidden="true"></i>
+            <i class="fa-solid fa-shirt about-hero-mark about-hero-mark-shirt" aria-hidden="true"></i>
+            <i class="fa-solid fa-award about-hero-mark about-hero-mark-award" aria-hidden="true"></i>
+            <i class="fa-solid fa-ruler-combined about-hero-mark about-hero-mark-ruler" aria-hidden="true"></i>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-sm font-bold text-accent mb-4 uppercase tracking-wider">
+                    <i class="fa-solid fa-gem"></i> Est. 1987
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-text leading-tight">
+                    Our <span class="text-accent">Story</span>
+                </h1>
+                <p class="text-lg text-secondary-text max-w-2xl mx-auto mt-4 leading-relaxed">
+                    Three decades of dressing gentlemen for life's most important moments — with care, craft, and an unwavering eye for detail.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+                    <a href="appointments.html" class="btn-primary px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check"></i> Book a Fitting
+                    </a>
+                    <a href="contact.html" class="btn-outline px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Contact Us
+                    </a>
+                </div>
+                <nav class="mt-6 flex items-center justify-center gap-2 text-sm text-secondary-text">
+                    <a href="index.html" class="hover:text-accent transition">Home</a>
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <span class="text-accent font-semibold">About</span>
+                </nav>
+            </div>
+        </section>
+
+        <!-- ======== OUR STORY — SPLIT IMAGE + TEXT ======== -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
+                <!-- Image Side -->
+                <div class="relative">
+                    <div class="absolute -top-6 -left-6 w-48 h-48 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="relative grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="img-placeholder h-56 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/master_tailoring.jpg');"></div>
+                            <div class="img-placeholder h-40 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/fitting_session.jpg');"></div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="img-placeholder h-40 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/premium_collections.jpg');"></div>
+                            <div class="img-placeholder h-56 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/hero_tuxedo_shop.jpg');"></div>
+                        </div>
+                    </div>
+                  
+                </div>
+
+                <!-- Text Side -->
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs font-bold text-accent uppercase tracking-wider">
+                        <i class="fa-solid fa-bookmark"></i> Who We Are
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-primary-text leading-tight">
+                        A Legacy of <span class="text-accent">Impeccable Style</span>
+                    </h2>
+                    <p class="text-secondary-text text-base leading-relaxed">
+                        Black Tie House was founded in 1987 on Madison Avenue with a simple belief: every man deserves to feel extraordinary on the days that matter most. What started as a small tuxedo shop has grown into New York's most trusted name in formalwear.
+                    </p>
+                    <p class="text-secondary-text text-base leading-relaxed">
+                        Our founder, <strong class="text-primary-text">Anthony Marchetti</strong>, a third-generation Italian tailor, brought old-world craftsmanship to the modern gentleman. Today, his legacy continues through a team of master tailors who share his passion for precision, quality fabrics, and the perfect fit.
+                    </p>
+                    <p class="text-secondary-text text-base leading-relaxed">
+                        From intimate weddings to grand galas, from proms to presidential inaugurations — we've had the privilege of dressing thousands of clients for their most memorable occasions.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="appointments.html" class="btn-primary px-7 py-3 rounded-full font-bold text-sm shadow-lg shadow-accent/20">
+                            <i class="fa-solid fa-calendar-check mr-2"></i> Book a Fitting
+                        </a>
+                        <a href="contact.html" class="btn-outline px-7 py-3 rounded-full font-bold text-sm">
+                            <i class="fa-solid fa-envelope mr-2"></i> Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== STATS / BY THE NUMBERS ======== -->
+        <section class="bg-hover border-y border-border py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-primary-text">By the Numbers</h2>
+                    <p class="text-secondary-text text-lg mt-3">Decades of dedication, one perfectly fitted suit at a time.</p>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                    <div class="feature-card text-center flex flex-col items-center justify-center py-8">
+                        <span class="text-4xl lg:text-5xl font-extrabold text-accent stat-number">35+</span>
+                        <span class="text-secondary-text font-semibold mt-2 text-sm">Years in Business</span>
+                    </div>
+                    <div class="feature-card text-center flex flex-col items-center justify-center py-8">
+                        <span class="text-4xl lg:text-5xl font-extrabold text-accent stat-number">50K+</span>
+                        <span class="text-secondary-text font-semibold mt-2 text-sm">Happy Clients</span>
+                    </div>
+                    <div class="feature-card text-center flex flex-col items-center justify-center py-8">
+                        <span class="text-4xl lg:text-5xl font-extrabold text-accent stat-number">8K+</span>
+                        <span class="text-secondary-text font-semibold mt-2 text-sm">Weddings Served</span>
+                    </div>
+                    <div class="feature-card text-center flex flex-col items-center justify-center py-8">
+                        <span class="text-4xl lg:text-5xl font-extrabold text-accent stat-number">4.9</span>
+                        <div class="flex items-center gap-1 mt-2">
+                            <div class="flex text-accent text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <span class="text-secondary-text font-semibold text-sm ml-1">Rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== OUR VALUES ======== -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs sm:text-sm font-bold text-accent mb-4 uppercase tracking-wider">
+                    <i class="fa-solid fa-heart"></i> What We Stand For
+                </div>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-text tracking-tight">
+                    Our Core <span class="text-accent">Values</span>
+                </h2>
+                <p class="text-secondary-text text-base sm:text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
+                    Every stitch, every fitting, every interaction is guided by these principles.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Value 1 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-scissors"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Masterful Craftsmanship</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">Every garment is inspected, pressed, and adjusted by hand. We uphold the traditions of Italian tailoring passed down through generations.</p>
+                </div>
+                <!-- Value 2 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-handshake"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Personal Service</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">From the first consultation to the final fitting, you work with a dedicated style advisor who understands your vision and occasion.</p>
+                </div>
+                <!-- Value 3 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-crown"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Premium Quality</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">We source the finest fabrics — Italian wool, Egyptian cotton, silk linings — from the same mills used by world-class fashion houses.</p>
+                </div>
+                <!-- Value 4 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Group Excellence</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">Wedding parties, proms, corporate events — we've perfected the art of coordinating style for groups of any size, stress-free.</p>
+                </div>
+                <!-- Value 5 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-leaf"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Sustainable Fashion</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">Renting formalwear is inherently sustainable. We extend each garment's life through expert care, reducing waste in the fashion industry.</p>
+                </div>
+                <!-- Value 6 -->
+                <div class="feature-card flex flex-col">
+                    <div class="icon-circle mb-5"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="text-xl font-bold text-primary-text">Fit Guarantee</h3>
+                    <p class="text-secondary-text mt-3 leading-relaxed">Not satisfied with the fit? Our tailors will re-adjust your garment on the spot — at no additional charge. Your confidence is our commitment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== OUR JOURNEY / TIMELINE ======== -->
+        <section class="bg-hover border-y border-border py-16 lg:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs sm:text-sm font-bold text-accent mb-4 uppercase tracking-wider">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Our Journey
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-text tracking-tight">
+                        Milestones That <span class="text-accent">Define Us</span>
+                    </h2>
+                </div>
+
+                <div class="max-w-4xl mx-auto relative">
+                    <!-- Timeline line -->
+                    <div class="timeline-line"></div>
+
+                    <div class="space-y-12 lg:space-y-16">
+                        <!-- 1987 -->
+                        <div class="relative lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                            <div class="timeline-dot"></div>
+                            <div class="lg:text-right lg:pr-8 pl-12 lg:pl-0">
+                                <span class="inline-block px-3 py-1 rounded-full bg-accent text-white text-xs font-bold mb-3">1987</span>
+                                <h3 class="text-xl font-bold text-primary-text">The Beginning</h3>
+                                <p class="text-secondary-text mt-2 leading-relaxed text-sm">Anthony Marchetti opens the first Black Tie House on Madison Avenue with 50 hand-selected tuxedos and a dream of redefining formalwear in New York.</p>
+                            </div>
+                            <div class="hidden lg:block"></div>
+                        </div>
+
+                        <!-- 1995 -->
+                        <div class="relative lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                            <div class="timeline-dot"></div>
+                            <div class="hidden lg:block"></div>
+                            <div class="pl-12 lg:pl-8">
+                                <span class="inline-block px-3 py-1 rounded-full bg-accent text-white text-xs font-bold mb-3">1995</span>
+                                <h3 class="text-xl font-bold text-primary-text">Wedding Division Launch</h3>
+                                <p class="text-secondary-text mt-2 leading-relaxed text-sm">We introduce our dedicated wedding coordination service, quickly becoming the go-to for New York's most prestigious venues and wedding planners.</p>
+                            </div>
+                        </div>
+
+                        <!-- 2005 -->
+                        <div class="relative lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                            <div class="timeline-dot"></div>
+                            <div class="lg:text-right lg:pr-8 pl-12 lg:pl-0">
+                                <span class="inline-block px-3 py-1 rounded-full bg-accent text-white text-xs font-bold mb-3">2005</span>
+                                <h3 class="text-xl font-bold text-primary-text">Designer Partnerships</h3>
+                                <p class="text-secondary-text mt-2 leading-relaxed text-sm">We secure exclusive partnerships with top Italian and British designers, bringing runway-quality formalwear to our rental collection for the first time.</p>
+                            </div>
+                            <div class="hidden lg:block"></div>
+                        </div>
+
+                        <!-- 2015 -->
+                        <div class="relative lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                            <div class="timeline-dot"></div>
+                            <div class="hidden lg:block"></div>
+                            <div class="pl-12 lg:pl-8">
+                                <span class="inline-block px-3 py-1 rounded-full bg-accent text-white text-xs font-bold mb-3">2015</span>
+                                <h3 class="text-xl font-bold text-primary-text">Going Digital</h3>
+                                <p class="text-secondary-text mt-2 leading-relaxed text-sm">Launch of our online platform with virtual consultations and nationwide shipping, making premium formalwear accessible beyond New York City.</p>
+                            </div>
+                        </div>
+
+                        <!-- 2024 -->
+                        <div class="relative lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                            <div class="timeline-dot"></div>
+                            <div class="lg:text-right lg:pr-8 pl-12 lg:pl-0">
+                                <span class="inline-block px-3 py-1 rounded-full bg-accent text-white text-xs font-bold mb-3">Today</span>
+                                <h3 class="text-xl font-bold text-primary-text">The Gold Standard</h3>
+                                <p class="text-secondary-text mt-2 leading-relaxed text-sm">With 50,000+ clients served, a 4.9-star rating, and a flagship showroom on Madison Ave, Black Tie House continues to set the standard for specialty formalwear.</p>
+                            </div>
+                            <div class="hidden lg:block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- ======== TESTIMONIALS ======== -->
+        <section class="bg-hover border-y border-border py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-primary-text">Words From Our Clients</h2>
+                    <p class="text-secondary-text text-lg mt-2">Real experiences from weddings, proms, and black-tie events.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
+                    <div class="testimonial-card flex flex-col h-full">
+                        <div class="flex text-accent text-sm mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="text-primary-text italic grow">"They fitted our entire wedding party of 9 groomsmen flawlessly. The deep burgundy tuxedos were a hit — everyone looked incredible."</p>
+                        <div class="flex items-center gap-3 mt-6 pt-2">
+                            <img src="assets/avatar_mark.jpg" alt="Mark T." class="w-10 h-10 rounded-full object-cover object-top border border-border shrink-0">
+                            <div><h4 class="font-bold text-primary-text">Mark T.</h4><p class="text-secondary-text text-sm">Groom, June Wedding</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card flex flex-col h-full">
+                        <div class="flex text-accent text-sm mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="text-primary-text italic grow">"As a prom mom, I was overwhelmed — but their group coordinator handled everything. My son's suit fit perfectly and he felt like a star."</p>
+                        <div class="flex items-center gap-3 mt-6 pt-2">
+                            <img src="assets/avatar_lisa.jpg" alt="Lisa M." class="w-10 h-10 rounded-full object-cover object-top border border-border shrink-0">
+                            <div><h4 class="font-bold text-primary-text">Lisa M.</h4><p class="text-secondary-text text-sm">Prom Parent</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card flex flex-col h-full">
+                        <div class="flex text-accent text-sm mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="text-primary-text italic grow">"I rent a tuxedo every year for the charity gala. The quality, the fit, the service — Black Tie House is simply the best in town."</p>
+                        <div class="flex items-center gap-3 mt-6 pt-2">
+                            <img src="assets/avatar_david.jpg" alt="David R." class="w-10 h-10 rounded-full object-cover object-top border border-border shrink-0">
+                            <div><h4 class="font-bold text-primary-text">David R.</h4><p class="text-secondary-text text-sm">Regular Client</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CTA BANNER ======== -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="max-w-4xl mx-auto bg-accent rounded-3xl p-10 md:p-14 text-center text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-2xl"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Experience the Black Tie Difference</h2>
+                    <p class="text-white/85 text-lg max-w-2xl mx-auto leading-relaxed">Visit our Madison Avenue showroom or book a virtual consultation — and discover why thousands choose us for their most important occasions.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                        <a href="appointments.html" class="bg-white text-accent px-8 py-3.5 rounded-full font-bold text-base hover:bg-gray-100 transition shadow-md inline-flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-check mr-2"></i> Book a Fitting
+                        </a>
+                        <a href="contact.html" class="border-2 border-white text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-white/10 transition inline-flex items-center justify-center">
+                            <i class="fa-solid fa-envelope mr-2"></i> Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======== MOBILE DRAWER ======== -->
+    <div id="mobile-menu-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+        <div id="drawer-content" class="absolute top-0 left-0 right-0 bg-background rounded-b-2xl shadow-2xl p-6 xl:hidden max-h-[85vh] overflow-y-auto transform translate-y-[-100%] transition-transform duration-300 ease-out">
+            <div class="flex justify-between items-center pb-4 border-b border-border">
+                <a href="index.html" class="flex items-center gap-3 group shrink-0">
+                    <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                        <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-baseline">
+                            <span class="text-xl font-extrabold tracking-tight text-primary-text leading-none font-sans">Black Tie</span>
+                        <span class="text-xl font-extrabold tracking-tight text-accent leading-none font-sans ml-1.5">House</span>
+                        </div>
+                        <span class="text-[9px] font-bold tracking-[0.15em] text-secondary-text uppercase mt-0.5">Formalwear &amp; Tuxedo</span>
+                    </div>
+                </a>
+                <button id="mobile-menu-close" class="text-primary-text hover:text-accent"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <nav class="flex flex-col space-y-1.5 py-4">
+                <div>
+                    <button class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl w-full text-left flex justify-between items-center" id="mobile-home-toggle">
+                        <span>Home</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-200 text-primary-text" id="home-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="mobile-home-menu" class="hidden pl-4 flex flex-col space-y-1 mt-1 border-l-2 border-border">
+                        <a href="index.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Home 1</a>
+                        <a href="home2.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">About</a>
+                <a href="shop.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Shop the Collection</a>
+                <a href="group-orders.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Group Orders</a>
+                <a href="appointments.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Fitting Appointments</a>
+                <a href="contact.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Contact</a>
+                <div>
+                    <button class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl w-full text-left flex justify-between items-center" id="mobile-dash-toggle">
+                        <span>Dashboard</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-200 text-primary-text" id="dash-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="mobile-dash-menu" class="hidden pl-4 flex flex-col space-y-1 mt-1 border-l-2 border-border">
+                        <a href="client.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Client</a>
+                        <a href="admin.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Admin</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="pt-4 border-t border-border mt-2 flex justify-around items-center">
+                <button id="drawer-rtl-toggle" class="flex flex-col items-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg><span class="text-xs mt-1 text-secondary-text">RTL</span></button>
+                <button id="drawer-theme-toggle" class="flex flex-col items-center">
+                    <svg class="w-6 h-6 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg class="w-6 h-6 dark-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <span class="text-xs mt-1 text-secondary-text">Theme</span>
+                </button>
+            </div>
+            <div class="flex mt-5 w-full">
+                <a href="login.html" class="w-full btn-primary text-center py-3 rounded-full font-bold text-sm shadow-sm">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== FOOTER ======== -->
+    <footer id="main-footer" class="pt-16 transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-800 text-center sm:text-left">
+                <div class="flex flex-col items-center sm:items-start">
+                    <a href="index.html" class="flex items-center justify-center sm:justify-start gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                        <div class="w-10 h-10 bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                            <i class="fa-solid fa-user-tie text-[#111827] text-xl"></i>
+                        </div>
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-baseline">
+                                <span class="text-2xl font-extrabold tracking-tight text-white leading-none font-sans">Black Tie</span>
+                        <span class="text-2xl font-extrabold tracking-tight text-[#E06666] leading-none font-sans ml-1.5">House</span>
+                            </div>
+                            <span class="text-[10px] font-bold tracking-[0.15em] text-gray-400 uppercase mt-1">Formalwear &amp; Tuxedo</span>
+                        </div>
+                    </a>
+                    <p class="text-gray-400 text-sm mt-4 leading-relaxed max-w-sm sm:max-w-none">Specialty formalwear and tuxedo rentals for weddings, proms, and black-tie events.</p>
+                    <div class="flex justify-center sm:justify-start gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="shop.html" class="footer-link text-gray-400 hover:text-accent transition">Shop Collection</a></li>
+                        <li><a href="group-orders.html" class="footer-link text-gray-400 hover:text-accent transition">Group Orders</a></li>
+                        <li><a href="appointments.html" class="footer-link text-gray-400 hover:text-accent transition">Fitting Appointments</a></li>
+                        <li><a href="pricing.html" class="footer-link text-gray-400 hover:text-accent transition">Rental Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="contact.html" class="footer-link text-gray-400 hover:text-accent transition">Contact</a></li>
+                        <li><a href="contact.html#faq" class="footer-link text-gray-400 hover:text-accent transition">FAQs</a></li>
+                        <li><a href="#" class="footer-link text-gray-400 hover:text-accent transition">Size Guide</a></li>
+                        <li><a href="#" class="footer-link text-gray-400 hover:text-accent transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Visit Us</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-map-marker-alt text-accent"></i> 456 Madison Ave, New York</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-phone text-accent"></i> (212) 555-7890</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-envelope text-accent"></i> style@blacktiehouse.com</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-clock text-accent"></i> Mon–Sat 10am – 7pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="py-8 text-center text-gray-500 text-sm">© 2026 Black Tie House. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- ======== SCRIPTS ======== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const html = document.documentElement;
+
+            // Mobile Drawer
+            const menuDrawer = document.getElementById('mobile-menu-drawer');
+            const menuContent = document.getElementById('drawer-content');
+            const menuBackdrop = document.getElementById('drawer-backdrop');
+
+            const openDrawer = () => {
+                menuDrawer.classList.remove('pointer-events-none');
+                menuContent.classList.remove('translate-y-[-100%]');
+                menuBackdrop.classList.add('opacity-50', 'pointer-events-auto');
+                document.body.style.overflow = 'hidden';
+            };
+            const closeDrawer = () => {
+                menuContent.classList.add('translate-y-[-100%]');
+                menuBackdrop.classList.remove('opacity-50', 'pointer-events-auto');
+                setTimeout(() => { menuDrawer.classList.add('pointer-events-none'); document.body.style.overflow = ''; }, 300);
+            };
+
+            document.getElementById('mobile-menu-open').addEventListener('click', openDrawer);
+            document.getElementById('mobile-menu-close').addEventListener('click', closeDrawer);
+            menuBackdrop.addEventListener('click', closeDrawer);
+
+            // Mobile Accordion
+            const setupAccordion = (toggleId, menuId, iconId) => {
+                const toggle = document.getElementById(toggleId);
+                toggle?.addEventListener('click', () => {
+                    const menu = document.getElementById(menuId);
+                    const icon = document.getElementById(iconId);
+                    if(menu) menu.classList.toggle('hidden');
+                    if(icon) icon.classList.toggle('rotate-180');
+                });
+            };
+            setupAccordion('mobile-home-toggle', 'mobile-home-menu', 'home-icon');
+            setupAccordion('mobile-dash-toggle', 'mobile-dash-menu', 'dash-icon');
+
+            // Theme Toggle
+            const themeToggles = [document.getElementById('theme-toggle'), document.getElementById('drawer-theme-toggle')];
+            const applyTheme = (theme) => {
+                html.setAttribute('data-theme', theme);
+                document.querySelectorAll('.light-icon').forEach(i => i.classList.toggle('hidden', theme === 'dark'));
+                document.querySelectorAll('.dark-icon').forEach(i => i.classList.toggle('hidden', theme === 'light'));
+            };
+            themeToggles.forEach(btn => btn?.addEventListener('click', () => {
+                const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', next);
+                applyTheme(next);
+            }));
+            applyTheme(localStorage.getItem('theme') || 'light');
+
+            // RTL Toggle
+            const rtlToggles = [document.getElementById('rtl-toggle'), document.getElementById('drawer-rtl-toggle')];
+            rtlToggles.forEach(btn => btn?.addEventListener('click', () => {
+                const current = html.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+                html.setAttribute('dir', current);
+                localStorage.setItem('dir', current);
+            }));
+            const savedDir = localStorage.getItem('dir');
+            if (savedDir) html.setAttribute('dir', savedDir);
+
+            // Active Nav Logic
+            const setActiveNavLink = () => {
+                const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+                document.querySelectorAll('.dropdown-menu a[href]').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === currentPath);
+                });
+                document.querySelector('.home-nav-link')?.classList.toggle('active', ['index.html', 'home2.html'].includes(currentPath));
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.classList.contains('home-nav-link')) return;
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === 'index.html' && (currentPath === 'index.html' || currentPath === '')) {
+                        link.classList.add('active');
+                    }
+                });
+
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                document.querySelectorAll('.mobile-nav-sublink').forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                if (['client.html', 'admin.html', 'dashboard.html'].includes(currentPath)) {
+                    document.getElementById('mobile-dash-toggle')?.classList.add('active');
+                    document.getElementById('mobile-dash-menu')?.classList.remove('hidden');
+                    document.getElementById('dash-icon')?.classList.add('rotate-180');
+                }
+                if (['index.html', 'home2.html', ''].includes(currentPath)) {
+                    document.getElementById('mobile-home-toggle')?.classList.add('active');
+                }
+            };
+            setActiveNavLink();
+
+            // Stat counter animation on scroll
+            const animateCounters = () => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
+            };
+            animateCounters();
+        });
+    </script>
+</body>
+</html>

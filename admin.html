@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Black Tie House — Formalwear & Tuxedo</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg?v=1" />
+
+    <!-- Tailwind CSS -->
+    <script src="tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'bth-primary': 'var(--color-primary)',
+                        'bth-primary-light': 'var(--color-primary-light)',
+                        'bth-primary-dark': 'var(--color-primary-dark)',
+                        'bth-primary-bright': 'var(--color-primary-bright)',
+                        'bth-accent': 'var(--color-accent)',
+                        'bg-warm': 'var(--color-bg-warm)',
+                        'neutral-dark': 'var(--color-text-dark)',
+                        'neutral-light': '#E8EDF2',
+                        'dark-bg': '#0F172A',
+                        'dark-card': '#141A24',
+                        'dark-surface': '#1E293B',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        'display': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                    },
+                    keyframes: {
+                        slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root, [data-theme="light"] {
+            --color-primary: #9B2C2C;
+            --color-primary-light: #C53030;
+            --color-primary-dark: #742A2A;
+            --color-primary-bright: #C53030;
+            --color-accent: #9B2C2C;
+            --color-bg-warm: #F8FAFC;
+            --color-text-dark: #0F172A;
+            --color-rgb-primary: 155, 44, 44;
+            --color-rgb-bright: 197, 48, 48;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-bg-warm); color: var(--color-text-dark); transition: background-color 0.4s ease, color 0.4s ease; }
+        .dark body { background-color: #0F172A; color: #E2E8F0; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.025em; }
+
+        .dark .text-bth-primary { color: var(--color-primary-bright) !important; }
+        .dark .border-bth-primary { border-color: var(--color-primary-bright) !important; }
+        .dark .bg-bth-primary { background-color: var(--color-primary-bright) !important; }
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100vh;
+            width: 280px;
+            background: #FFFFFF;
+            border-right: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            transition: transform 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .dark .sidebar { background: #0F172A; border-right-color: rgba(var(--color-rgb-bright), 0.15); }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } }
+        .sidebar-overlay { position: fixed; top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.5); z-index:99; display:none; }
+        .sidebar-overlay.open { display:block; }
+
+        .sidebar-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.85rem 1.5rem; margin: 0.25rem 0.75rem;
+            border-radius: 12px; color: var(--color-text-dark);
+            transition: all 0.2s; cursor: pointer;
+        }
+        .dark .sidebar-item { color: #E2E8F0; }
+        .sidebar-item:hover { background: rgba(var(--color-rgb-primary), 0.08); color: var(--color-primary); }
+        .dark .sidebar-item:hover { background: rgba(var(--color-rgb-bright), 0.12); color: var(--color-primary-bright); }
+        .sidebar-item.active { background: var(--color-primary); color: #FFFFFF; }
+        .dark .sidebar-item.active { background: var(--color-primary-bright); color: #0F172A; }
+        .sidebar-item i { width: 24px; font-size: 1.1rem; }
+
+        .main-content { margin-left: 280px; padding: 1.5rem; min-height: 100vh; }
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 70px;
+                overflow-x: hidden;
+            }
+        }
+
+        .mobile-header {
+            display: none; position: fixed; top:0;left:0;right:0;
+            background: #FFFFFF; padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            z-index: 50; align-items: center; justify-content: space-between;
+        }
+        .dark .mobile-header { background: #0F172A; border-bottom-color: rgba(var(--color-rgb-bright), 0.15); }
+        @media (max-width: 768px) { .mobile-header { display: flex; } }
+
+        .toggle-btn {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: rgba(var(--color-rgb-primary), 0.08);
+            color: var(--color-text-dark); display: inline-flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
+        }
+        .dark .toggle-btn { background: rgba(var(--color-rgb-bright), 0.12); color: #E2E8F0; }
+        .toggle-btn:hover { background: var(--color-primary); color: #FFFFFF; }
+        .dark .toggle-btn:hover { background: var(--color-primary-bright); color: #0F172A; }
+
+        .card-design {
+            background: #FFFFFF; border-radius: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+        @media (min-width: 640px) {
+            .card-design { border-radius: 28px; }
+        }
+        .dark .card-design { background: #141A24; border-color: rgba(var(--color-rgb-bright), 0.15); }
+        .card-design:hover { border-color: var(--color-primary); }
+
+        .btn-primary-design, .btn-primary {
+            background: var(--color-primary); color: #FFFFFF;
+            font-weight: 700; border-radius: 60px; transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(var(--color-rgb-primary), 0.3);
+            white-space: nowrap; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; vertical-align: middle;
+        }
+        .btn-primary-design:hover, .btn-primary:hover { background: var(--color-primary-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(var(--color-rgb-primary), 0.4); color: #FFFFFF; }
+        .dark .btn-primary-design, .dark .btn-primary { background: var(--color-primary-bright); color: #0F172A; }
+        .dark .btn-primary-design:hover, .dark .btn-primary:hover { background: var(--color-primary); color: #FFFFFF; }
+
+        .btn-outline-design, .btn-outline {
+            border: 1.5px solid var(--color-primary); color: var(--color-primary);
+            background: transparent; border-radius: 60px; font-weight: 600;
+            transition: all 0.3s; white-space: nowrap; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; vertical-align: middle;
+        }
+        .btn-outline-design:hover, .btn-outline:hover { background: var(--color-primary); color: #FFFFFF; transform: translateY(-2px); }
+        .dark .btn-outline-design, .dark .btn-outline { border-color: var(--color-primary-bright); color: var(--color-primary-bright); }
+        .dark .btn-outline-design:hover, .dark .btn-outline:hover { background: var(--color-primary-bright); color: #0F172A; }
+
+        .stat-card {
+            background: #FFFFFF; border-radius: 20px; padding: 1.2rem;
+            border: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            transition: all 0.3s;
+        }
+        .dark .stat-card { background: #141A24; border-color: rgba(var(--color-rgb-bright), 0.15); }
+        .stat-card:hover { transform: translateY(-3px); border-color: var(--color-primary); }
+
+        .status-badge {
+            display: inline-flex; align-items: center; padding: 0.25rem 0.75rem;
+            border-radius: 40px; font-size: 0.7rem; font-weight: 700;
+        }
+        .status-active { background: #E3F2FD; color: #0D47A1; }
+        .status-pending { background: #FFF3E0; color: #E65100; }
+        .status-completed { background: #E8F5E9; color: #1B5E20; }
+        .status-cancelled { background: #FFEBEE; color: #C62828; }
+        .status-inprogress { background: #F3E5F5; color: #6A1B9A; }
+        .status-fitting { background: #FCE7F3; color: #9D174D; }
+        .status-overdue { background: #FFEBEE; color: #B71C1C; }
+        .dark .status-active { background: #0D47A1; color: #90CAF9; }
+        .dark .status-pending { background: #E65100; color: #FFCC80; }
+        .dark .status-completed { background: #1B5E20; color: #A5D6A7; }
+        .dark .status-cancelled { background: #B71C1C; color: #EF9A9A; }
+        .dark .status-inprogress { background: #4A148C; color: #CE93D8; }
+        .dark .status-fitting { background: #831843; color: #F9A8D4; }
+        .dark .status-overdue { background: #7F1D1D; color: #FCA5A5; }
+
+        .form-input {
+            width: 100%; padding: 0.75rem 1rem;
+            border-radius: 16px; border: 1.5px solid rgba(var(--color-rgb-primary), 0.2);
+            background: #FFFFFF; transition: all 0.3s;
+            color: var(--color-text-dark); font-family: 'Inter', sans-serif;
+        }
+        .dark .form-input { background: #0F172A; border-color: rgba(var(--color-rgb-bright), 0.2); color: #E2E8F0; }
+        .form-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 4px rgba(var(--color-rgb-primary), 0.15); }
+        .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--color-text-dark); }
+        .dark .form-label { color: #E2E8F0; }
+
+        .progress-bar { height: 8px; background: rgba(var(--color-rgb-primary), 0.12); border-radius: 10px; overflow: hidden; }
+        .dark .progress-bar { background: rgba(var(--color-rgb-bright), 0.15); }
+        .progress-fill { height: 100%; background: var(--color-primary); border-radius: 10px; transition: width 0.6s ease; }
+        .dark .progress-fill { background: var(--color-primary-bright); }
+
+        .page-content.hidden { display: none; }
+        .receipt-item { padding: 0.75rem 0; border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.08); }
+        .dark .receipt-item { border-bottom-color: rgba(var(--color-rgb-bright), 0.1); }
+
+        /* RTL support */
+        [dir="rtl"] .sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid rgba(var(--color-rgb-primary), 0.12); }
+        [dir="rtl"] .main-content { margin-left: 0; margin-right: 280px; }
+        [dir="rtl"] .sidebar-item i { margin-right: 0; margin-left: 0.75rem; }
+        @media (max-width: 768px) {
+            [dir="rtl"] .sidebar { transform: translateX(100%); }
+            [dir="rtl"] .sidebar.open { transform: translateX(0); }
+            [dir="rtl"] .main-content { margin-right: 0; }
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.85; transition: all 0.2s ease; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) brightness(1.2); opacity: 0.9; }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+        /* Admin table */
+        .admin-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .admin-table th {
+            text-align: left; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--color-text-dark); opacity: 0.55;
+            padding: 0.75rem 1rem; border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.08);
+        }
+        .dark .admin-table th { color: #E2E8F0; border-bottom-color: rgba(var(--color-rgb-bright), 0.1); }
+        .admin-table td {
+            padding: 0.9rem 1rem; font-size: 0.875rem;
+            border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.06);
+            color: var(--color-text-dark);
+        }
+        .dark .admin-table td { border-bottom-color: rgba(var(--color-rgb-bright), 0.08); color: #E2E8F0; }
+        .admin-table tr:hover td { background: rgba(var(--color-rgb-primary), 0.03); }
+        .dark .admin-table tr:hover td { background: rgba(var(--color-rgb-bright), 0.05); }
+        [dir="rtl"] .admin-table th { text-align: right; }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="flex items-center gap-3">
+            <button id="menuToggle" class="toggle-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="flex items-center gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-lg font-extrabold tracking-tight text-neutral-dark dark:text-white leading-none">Black Tie</span>
+                        <span class="text-lg font-extrabold tracking-tight text-bth-accent dark:text-red-400 leading-none ml-1">House</span>
+                    </div>
+                    <span class="text-[8px] font-bold tracking-widest text-neutral-dark/60 dark:text-gray-400 uppercase mt-0.5">Admin Panel</span>
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="theme-toggle-mobile" class="toggle-btn"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:inline"></i></button>
+            <button id="rtl-toggle-mobile" class="toggle-btn"><i class="fas fa-exchange-alt"></i></button>
+        </div>
+    </div>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="p-5 border-b border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)]">
+            <a href="index.html" class="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-extrabold tracking-tight text-neutral-dark dark:text-white leading-none">Black Tie</span>
+                        <span class="text-xl font-extrabold tracking-tight text-bth-accent dark:text-red-400 leading-none ml-1">House</span>
+                    </div>
+                    <span class="text-[9px] font-bold tracking-widest text-neutral-dark/60 dark:text-gray-400 uppercase mt-0.5">Admin Panel</span>
+                </div>
+            </a>
+        </div>
+        <nav class="py-4">
+            <div class="sidebar-item active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="sidebar-item" data-page="appointments"><i class="fas fa-calendar-check"></i><span>Appointments</span></div>
+            <div class="sidebar-item" data-page="orders"><i class="fas fa-box"></i><span>Orders</span></div>
+            <div class="sidebar-item" data-page="customers"><i class="fas fa-users"></i><span>Customers</span></div>
+            <div class="sidebar-item" data-page="inventory"><i class="fas fa-vest"></i><span>Inventory</span></div>
+            <div class="sidebar-item" data-page="payments"><i class="fas fa-credit-card"></i><span>Payments</span></div>
+            <div class="sidebar-item" data-page="reports"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+        </nav>
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)]">
+            <a href="login.html" class="flex items-center justify-center gap-2 w-full p-2.5 rounded-xl bg-[rgba(var(--color-rgb-primary),0.08)] hover:bg-bth-primary transition font-semibold text-sm text-neutral-dark dark:text-gray-200 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i><span>Sign Out</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card-design p-4 md:p-6 flex justify-between items-center flex-wrap gap-3 mb-6">
+            <div>
+                <h1 class="text-2xl font-display font-bold" id="page-title">Admin Dashboard</h1>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400" id="page-subtitle">Welcome back, James</p>
+            </div>
+            <div class="hidden lg:flex items-center gap-4">
+                <button id="theme-toggle" class="toggle-btn"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:inline"></i></button>
+                <button id="rtl-toggle" class="toggle-btn"><i class="fas fa-exchange-alt"></i></button>
+                <div class="flex items-center gap-3 border-l border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)] pl-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-bth-primary shadow-sm shrink-0">
+                        <img src="assets/avatar_david.jpg" alt="Admin" class="w-full h-full object-cover object-top" style="object-position: center top;">
+                    </div>
+                    <div class="text-left hidden lg:block">
+                        <p class="text-sm font-bold text-neutral-dark dark:text-white leading-tight">James Wilson</p>
+                        <p class="text-[10px] text-neutral-dark/60 dark:text-gray-400">Store Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DASHBOARD ========== -->
+        <div id="page-dashboard" class="page-content">
+            <!-- Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Today's Appointments</p>
+                            <p class="text-2xl font-bold text-neutral-dark dark:text-white">14</p>
+                            <p class="text-xs text-emerald-500 mt-1"><i class="fas fa-arrow-up mr-1"></i>+3 vs yesterday</p>
+                        </div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-calendar-check text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Active Orders</p>
+                            <p class="text-2xl font-bold text-neutral-dark dark:text-white">32</p>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mt-1">8 awaiting fitting</p>
+                        </div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-box text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Revenue (This Week)</p>
+                            <p class="text-2xl font-bold text-neutral-dark dark:text-white">$14.2k</p>
+                            <p class="text-xs text-emerald-500 mt-1"><i class="fas fa-arrow-up mr-1"></i>+12% vs last week</p>
+                        </div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-dollar-sign text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Pending Payments</p>
+                            <p class="text-2xl font-bold text-bth-primary">$3,860</p>
+                            <p class="text-xs text-amber-500 mt-1">5 overdue</p>
+                        </div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-exclamation-circle text-bth-primary"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Today's Schedule -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="card-design p-4 sm:p-6">
+                    <h3 class="font-display font-bold text-lg mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button data-nav="appointments" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-calendar-plus text-bth-primary"></i><span>Manage Today's Appointments</span>
+                        </button>
+                        <button data-nav="orders" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-box-open text-bth-primary"></i><span>View All Orders</span>
+                        </button>
+                        <button data-nav="inventory" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-vest text-bth-primary"></i><span>Check Inventory</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-design p-4 sm:p-6">
+                    <h3 class="font-display font-bold text-lg mb-4">Today's Schedule</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl">
+                            <div>
+                                <p class="font-medium text-sm">Wedding Party Fitting</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">10:00 AM · Mr. Alistair · 6 guests</p>
+                            </div>
+                            <span class="status-badge status-active">Confirmed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl">
+                            <div>
+                                <p class="font-medium text-sm">Prom Fitting</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">1:00 PM · Ms. Chen · 2 guests</p>
+                            </div>
+                            <span class="status-badge status-pending">Scheduled</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl">
+                            <div>
+                                <p class="font-medium text-sm">Group Consultation</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">3:30 PM · James · 10 guests</p>
+                            </div>
+                            <span class="status-badge status-active">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders table -->
+            <div class="card-design p-4 sm:p-6">
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+                    <h3 class="font-display font-bold text-lg">Recent Orders</h3>
+                    <button data-nav="orders" class="text-bth-primary text-sm font-semibold hover:underline">View all →</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Event Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">#ORD-1042</td>
+                                <td>Johnson Wedding</td>
+                                <td>May 17, 2026</td>
+                                <td class="font-bold">$1,153</td>
+                                <td><span class="status-badge status-inprogress">In Progress</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1041</td>
+                                <td>Michael Thompson</td>
+                                <td>Apr 22, 2026</td>
+                                <td class="font-bold">$179</td>
+                                <td><span class="status-badge status-fitting">Fitting</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1040</td>
+                                <td>Prom Group A</td>
+                                <td>May 3, 2026</td>
+                                <td class="font-bold">$834</td>
+                                <td><span class="status-badge status-active">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1039</td>
+                                <td>David Chen</td>
+                                <td>Apr 15, 2026</td>
+                                <td class="font-bold">$199</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1038</td>
+                                <td>Corporate Gala Ltd.</td>
+                                <td>Apr 28, 2026</td>
+                                <td class="font-bold">$2,388</td>
+                                <td><span class="status-badge status-pending">Awaiting Payment</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== APPOINTMENTS ========== -->
+        <div id="page-appointments" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Appointments</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Manage all upcoming client fittings and consultations.</p>
+
+                <div class="flex flex-wrap gap-3 mb-5">
+                    <button class="btn-primary-design px-5 py-2 text-sm">Today (14)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">Tomorrow (9)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">This Week (48)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">All Upcoming</button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Wedding Party Fitting — Johnson</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">Today · 10:00 AM – 12:00 PM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-active">Confirmed</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Tailor: Mr. Alistair · 6 guests</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-edit mr-1"></i>Edit</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Prom Fitting — Individual</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">Today · 1:00 PM – 1:45 PM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-pending">Scheduled</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Tailor: Ms. Chen · 2 guests</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-edit mr-1"></i>Edit</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Corporate Group Consultation</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">Today · 3:30 PM – 5:00 PM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-active">Confirmed</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Coordinator: James · 10 guests</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-edit mr-1"></i>Edit</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== ORDERS ========== -->
+        <div id="page-orders" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Orders</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Manage rental and purchase orders across all channels.</p>
+
+                <div class="flex flex-wrap gap-3 mb-5">
+                    <button class="btn-primary-design px-5 py-2 text-sm">All (32)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">Awaiting Fitting (8)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">In Progress (12)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">Ready (7)</button>
+                    <button class="btn-outline-design px-5 py-2 text-sm">Completed (5)</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Type</th>
+                                <th>Event Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">#ORD-1042</td>
+                                <td>Johnson Wedding Party</td>
+                                <td>Group Rental</td>
+                                <td>May 17, 2026</td>
+                                <td><span class="status-badge status-inprogress">In Progress</span></td>
+                                <td class="font-bold">$1,153</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">Manage</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1041</td>
+                                <td>Michael Thompson</td>
+                                <td>Rental</td>
+                                <td>Apr 22, 2026</td>
+                                <td><span class="status-badge status-fitting">Fitting</span></td>
+                                <td class="font-bold">$179</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">Manage</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1040</td>
+                                <td>Prom Group A</td>
+                                <td>Group Rental</td>
+                                <td>May 3, 2026</td>
+                                <td><span class="status-badge status-active">Confirmed</span></td>
+                                <td class="font-bold">$834</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">Manage</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1039</td>
+                                <td>David Chen</td>
+                                <td>Purchase</td>
+                                <td>Apr 15, 2026</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td class="font-bold">$199</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1038</td>
+                                <td>Corporate Gala Ltd.</td>
+                                <td>Group Rental</td>
+                                <td>Apr 28, 2026</td>
+                                <td><span class="status-badge status-pending">Awaiting Payment</span></td>
+                                <td class="font-bold">$2,388</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">Manage</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">#ORD-1037</td>
+                                <td>Robert Mitchell</td>
+                                <td>Rental</td>
+                                <td>Apr 20, 2026</td>
+                                <td><span class="status-badge status-overdue">Overdue</span></td>
+                                <td class="font-bold">$149</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">Manage</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CUSTOMERS ========== -->
+        <div id="page-customers" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Customers</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Client directory with order history and contact details.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Total Customers</p>
+                        <p class="text-2xl font-bold">328</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">New This Month</p>
+                        <p class="text-2xl font-bold text-emerald-500">+42</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Returning</p>
+                        <p class="text-2xl font-bold">186</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Corporate Accounts</p>
+                        <p class="text-2xl font-bold">24</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Contact</th>
+                                <th>Type</th>
+                                <th>Total Orders</th>
+                                <th>Last Order</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-bth-primary/15 flex items-center justify-center text-bth-primary text-xs font-bold">MJ</div>
+                                        <div>
+                                            <p class="font-semibold">Michael Johnson</p>
+                                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Premium</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-xs">michael@example.com<br><span class="text-neutral-dark/60 dark:text-gray-400">(212) 555-1042</span></td>
+                                <td>Individual</td>
+                                <td class="font-bold">12</td>
+                                <td>Apr 8, 2026</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-bth-primary/15 flex items-center justify-center text-bth-primary text-xs font-bold">JW</div>
+                                        <div>
+                                            <p class="font-semibold">Johnson Wedding Party</p>
+                                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Group Order</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-xs">wedding@johnson.com<br><span class="text-neutral-dark/60 dark:text-gray-400">(212) 555-8871</span></td>
+                                <td>Group (7)</td>
+                                <td class="font-bold">1</td>
+                                <td>Apr 9, 2026</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-bth-primary/15 flex items-center justify-center text-bth-primary text-xs font-bold">DC</div>
+                                        <div>
+                                            <p class="font-semibold">David Chen</p>
+                                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Regular</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-xs">david.chen@example.com<br><span class="text-neutral-dark/60 dark:text-gray-400">(212) 555-4488</span></td>
+                                <td>Individual</td>
+                                <td class="font-bold">5</td>
+                                <td>Apr 2, 2026</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-bth-primary/15 flex items-center justify-center text-bth-primary text-xs font-bold">CG</div>
+                                        <div>
+                                            <p class="font-semibold">Corporate Gala Ltd.</p>
+                                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Corporate Account</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-xs">events@corpgala.com<br><span class="text-neutral-dark/60 dark:text-gray-400">(212) 555-2000</span></td>
+                                <td>Corporate (12)</td>
+                                <td class="font-bold">3</td>
+                                <td>Apr 6, 2026</td>
+                                <td><button class="text-bth-primary text-xs font-semibold hover:underline">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== INVENTORY ========== -->
+        <div id="page-inventory" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Inventory</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Track stock levels of tuxedos, suits, and accessories across sizes.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Total Items</p>
+                        <p class="text-2xl font-bold">842</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Currently Rented</p>
+                        <p class="text-2xl font-bold text-bth-primary">518</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Needs Restocking</p>
+                        <p class="text-2xl font-bold text-amber-500">6 styles</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="font-bold">Midnight Blue Tuxedo</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Sizes 36R – 48L · Peak lapel</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-active">In Stock</span>
+                                <span class="text-sm font-bold">62 available</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar mt-3"><div class="progress-fill" style="width: 78%"></div></div>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="font-bold">Charcoal Three-Piece Suit</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Sizes 38R – 46L · Modern fit</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-pending">Low Stock</span>
+                                <span class="text-sm font-bold text-amber-500">14 available</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar mt-3"><div class="progress-fill" style="width: 22%"></div></div>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="font-bold">Burgundy Velvet Dinner Jacket</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Sizes 38R – 44R · Shawl collar</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-cancelled">Critical</span>
+                                <span class="text-sm font-bold text-bth-primary">3 available</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar mt-3"><div class="progress-fill" style="width: 8%"></div></div>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="font-bold">Patent Leather Oxfords</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Sizes 8 – 13 · Black</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-active">In Stock</span>
+                                <span class="text-sm font-bold">94 available</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar mt-3"><div class="progress-fill" style="width: 88%"></div></div>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div>
+                                <p class="font-bold">Silk Bow Tie & Pocket Square Sets</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Black · Navy · Burgundy</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-active">In Stock</span>
+                                <span class="text-sm font-bold">186 available</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar mt-3"><div class="progress-fill" style="width: 95%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PAYMENTS ========== -->
+        <div id="page-payments" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Payments</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Track incoming payments, outstanding balances, and refunds.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Collected This Week</p>
+                        <p class="text-2xl font-bold text-emerald-500">$14,220</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Outstanding</p>
+                        <p class="text-2xl font-bold text-bth-primary">$3,860</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Overdue Invoices</p>
+                        <p class="text-2xl font-bold text-amber-500">5</p>
+                    </div>
+                    <div class="p-4 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Refunds Processed</p>
+                        <p class="text-2xl font-bold">$420</p>
+                    </div>
+                </div>
+
+                <h4 class="font-bold text-lg mb-3">Recent Transactions</h4>
+                <div class="space-y-2">
+                    <div class="receipt-item flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm">#ORD-1041 · Michael Thompson</p>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Apr 9, 2026 · Visa •••• 4521</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm text-emerald-500">+$179</span>
+                            <span class="status-badge status-completed text-xs">Paid</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm">#ORD-1042 · Johnson Wedding</p>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Apr 8, 2026 · Mastercard •••• 8830</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm text-emerald-500">+$755</span>
+                            <span class="status-badge status-pending text-xs">Partial</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm">#ORD-1038 · Corporate Gala Ltd.</p>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Apr 6, 2026 · Invoice #INV-0388</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm text-bth-primary">$0</span>
+                            <span class="status-badge status-overdue text-xs">Overdue</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm">#ORD-1037 · Robert Mitchell (refund)</p>
+                            <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Apr 4, 2026 · Refund issued</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm text-bth-primary">-$149</span>
+                            <span class="status-badge status-cancelled text-xs">Refunded</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                    <button class="btn-primary-design px-6 py-2.5 text-sm"><i class="fas fa-download mr-2"></i>Export Report</button>
+                    <button class="btn-outline-design px-6 py-2.5 text-sm"><i class="fas fa-paper-plane mr-2"></i>Send Payment Reminders</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== REPORTS ========== -->
+        <div id="page-reports" class="page-content hidden">
+            <div class="card-design p-4 sm:p-6">
+                <h3 class="font-display font-bold text-2xl mb-2">Reports</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Performance metrics across revenue, orders, and customer behavior.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Monthly Revenue</p>
+                        <p class="text-3xl font-bold">$58.4k</p>
+                        <p class="text-xs text-emerald-500 mt-1"><i class="fas fa-arrow-up mr-1"></i>+18% YoY</p>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Rentals vs Purchases</p>
+                        <p class="text-3xl font-bold">82%</p>
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mt-1">Rentals of total orders</p>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Avg Order Value</p>
+                        <p class="text-3xl font-bold">$182</p>
+                        <p class="text-xs text-emerald-500 mt-1"><i class="fas fa-arrow-up mr-1"></i>+6% vs last month</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <h4 class="font-bold text-lg mb-4">Top Performing Categories</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Tuxedos</span>
+                                    <span class="font-bold">42%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 42%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Three-Piece Suits</span>
+                                    <span class="font-bold">28%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 28%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Dinner Jackets</span>
+                                    <span class="font-bold">18%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 18%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Accessories</span>
+                                    <span class="font-bold">12%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 12%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <h4 class="font-bold text-lg mb-4">Event Types Breakdown</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Weddings</span>
+                                    <span class="font-bold">48%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 48%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Proms</span>
+                                    <span class="font-bold">26%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 26%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Corporate Events</span>
+                                    <span class="font-bold">16%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 16%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5">
+                                    <span>Galas & Fundraisers</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 10%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                    <button class="btn-primary-design px-6 py-2.5 text-sm"><i class="fas fa-file-pdf mr-2"></i>Export PDF</button>
+                    <button class="btn-outline-design px-6 py-2.5 text-sm"><i class="fas fa-file-excel mr-2"></i>Export CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // RTL Toggle
+            const rtlToggle = document.getElementById('rtl-toggle');
+            const rtlToggleMobile = document.getElementById('rtl-toggle-mobile');
+            function setRTL(isRTL) {
+                document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+                localStorage.setItem('dir', isRTL ? 'rtl' : 'ltr');
+            }
+            const savedDir = localStorage.getItem('dir');
+            setRTL(savedDir === 'rtl');
+            if (rtlToggle) rtlToggle.addEventListener('click', () => setRTL(document.documentElement.getAttribute('dir') !== 'rtl'));
+            if (rtlToggleMobile) rtlToggleMobile.addEventListener('click', () => setRTL(document.documentElement.getAttribute('dir') !== 'rtl'));
+
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            function setTheme(isDark) {
+                if (isDark) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                [themeToggle, themeToggleMobile].forEach(btn => {
+                    if (btn) {
+                        let moon = btn.querySelector('.fa-moon'), sun = btn.querySelector('.fa-sun');
+                        if (isDark) { moon?.classList.add('hidden'); sun?.classList.remove('hidden'); }
+                        else { moon?.classList.remove('hidden'); sun?.classList.add('hidden'); }
+                    }
+                });
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            }
+            const savedTheme = localStorage.getItem('theme');
+            setTheme(savedTheme === 'dark');
+            if (themeToggle) themeToggle.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
+            if (themeToggleMobile) themeToggleMobile.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
+
+            // Mobile Sidebar
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+            function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('open'); }
+            if (menuToggle) menuToggle.addEventListener('click', (e) => { e.stopPropagation(); sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+            if (overlay) overlay.addEventListener('click', closeSidebar);
+            window.addEventListener('resize', () => { if (window.innerWidth > 768 && sidebar.classList.contains('open')) closeSidebar(); });
+
+            // Navigation
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            const pages = document.querySelectorAll('.page-content');
+            const pageTitle = document.getElementById('page-title');
+            const pageSubtitle = document.getElementById('page-subtitle');
+            const titles = {
+                dashboard: { title: 'Admin Dashboard', subtitle: 'Welcome back, James' },
+                appointments: { title: 'Appointments', subtitle: 'Manage all client fittings' },
+                orders: { title: 'Orders', subtitle: 'Track rental and purchase orders' },
+                customers: { title: 'Customers', subtitle: 'Client directory and history' },
+                inventory: { title: 'Inventory', subtitle: 'Stock levels across all sizes' },
+                payments: { title: 'Payments', subtitle: 'Track payments and balances' },
+                reports: { title: 'Reports', subtitle: 'Performance metrics and insights' }
+            };
+            function navigateTo(page) {
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                document.querySelector(`.sidebar-item[data-page="${page}"]`)?.classList.add('active');
+                pages.forEach(p => p.classList.add('hidden'));
+                document.getElementById(`page-${page}`)?.classList.remove('hidden');
+                if (titles[page]) { pageTitle.textContent = titles[page].title; pageSubtitle.textContent = titles[page].subtitle; }
+                closeSidebar();
+            }
+            sidebarItems.forEach(item => { item.addEventListener('click', () => { navigateTo(item.getAttribute('data-page')); }); });
+            document.querySelectorAll('[data-nav]').forEach(btn => { btn.addEventListener('click', () => { navigateTo(btn.getAttribute('data-nav')); }); });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Dashboard | Black Tie House — Formalwear & Tuxedo</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg?v=1" />
+
+    <!-- Tailwind CSS -->
+    <script src="tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'bth-primary': 'var(--color-primary)',
+                        'bth-primary-light': 'var(--color-primary-light)',
+                        'bth-primary-dark': 'var(--color-primary-dark)',
+                        'bth-primary-bright': 'var(--color-primary-bright)',
+                        'bth-accent': 'var(--color-accent)',
+                        'bg-warm': 'var(--color-bg-warm)',
+                        'neutral-dark': 'var(--color-text-dark)',
+                        'neutral-light': '#E8EDF2',
+                        'dark-bg': '#0F172A',
+                        'dark-card': '#141A24',
+                        'dark-surface': '#1E293B',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        'display': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                    },
+                    keyframes: {
+                        slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root, [data-theme="light"] {
+            --color-primary: #9B2C2C;
+            --color-primary-light: #C53030;
+            --color-primary-dark: #742A2A;
+            --color-primary-bright: #C53030;
+            --color-accent: #9B2C2C;
+            --color-bg-warm: #F8FAFC;
+            --color-text-dark: #0F172A;
+            --color-rgb-primary: 155, 44, 44;
+            --color-rgb-bright: 197, 48, 48;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-bg-warm); color: var(--color-text-dark); transition: background-color 0.4s ease, color 0.4s ease; }
+        .dark body { background-color: #0F172A; color: #E2E8F0; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.025em; }
+
+        .dark .text-bth-primary { color: var(--color-primary-bright) !important; }
+        .dark .border-bth-primary { border-color: var(--color-primary-bright) !important; }
+        .dark .bg-bth-primary { background-color: var(--color-primary-bright) !important; }
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100vh;
+            width: 280px;
+            background: #FFFFFF;
+            border-right: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            transition: transform 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .dark .sidebar { background: #0F172A; border-right-color: rgba(var(--color-rgb-bright), 0.15); }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } }
+        .sidebar-overlay { position: fixed; top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.5); z-index:99; display:none; }
+        .sidebar-overlay.open { display:block; }
+
+        .sidebar-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.85rem 1.5rem; margin: 0.25rem 0.75rem;
+            border-radius: 12px; color: var(--color-text-dark);
+            transition: all 0.2s; cursor: pointer;
+        }
+        .dark .sidebar-item { color: #E2E8F0; }
+        .sidebar-item:hover { background: rgba(var(--color-rgb-primary), 0.08); color: var(--color-primary); }
+        .dark .sidebar-item:hover { background: rgba(var(--color-rgb-bright), 0.12); color: var(--color-primary-bright); }
+        .sidebar-item.active { background: var(--color-primary); color: #FFFFFF; }
+        .dark .sidebar-item.active { background: var(--color-primary-bright); color: #0F172A; }
+        .sidebar-item i { width: 24px; font-size: 1.1rem; }
+
+        .main-content { margin-left: 280px; padding: 1.5rem; min-height: 100vh; }
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 70px;
+                overflow-x: hidden;
+            }
+        }
+
+        .mobile-header {
+            display: none; position: fixed; top:0;left:0;right:0;
+            background: #FFFFFF; padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            z-index: 50; align-items: center; justify-content: space-between;
+        }
+        .dark .mobile-header { background: #0F172A; border-bottom-color: rgba(var(--color-rgb-bright), 0.15); }
+        @media (max-width: 768px) { .mobile-header { display: flex; } }
+
+        .toggle-btn {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: rgba(var(--color-rgb-primary), 0.08);
+            color: var(--color-text-dark); display: inline-flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
+        }
+        .dark .toggle-btn { background: rgba(var(--color-rgb-bright), 0.12); color: #E2E8F0; }
+        .toggle-btn:hover { background: var(--color-primary); color: #FFFFFF; }
+        .dark .toggle-btn:hover { background: var(--color-primary-bright); color: #0F172A; }
+
+        .card-design {
+            background: #FFFFFF; border-radius: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+        @media (min-width: 640px) {
+            .card-design { border-radius: 28px; }
+        }
+        .dark .card-design { background: #141A24; border-color: rgba(var(--color-rgb-bright), 0.15); }
+        .card-design:hover { border-color: var(--color-primary); }
+
+        .btn-primary-design, .btn-primary {
+            background: var(--color-primary); color: #FFFFFF;
+            font-weight: 700; border-radius: 60px; transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(var(--color-rgb-primary), 0.3);
+            white-space: nowrap; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; vertical-align: middle;
+        }
+        .btn-primary-design:hover, .btn-primary:hover { background: var(--color-primary-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(var(--color-rgb-primary), 0.4); color: #FFFFFF; }
+        .dark .btn-primary-design, .dark .btn-primary { background: var(--color-primary-bright); color: #0F172A; }
+        .dark .btn-primary-design:hover, .dark .btn-primary:hover { background: var(--color-primary); color: #FFFFFF; }
+
+        .btn-outline-design, .btn-outline {
+            border: 1.5px solid var(--color-primary); color: var(--color-primary);
+            background: transparent; border-radius: 60px; font-weight: 600;
+            transition: all 0.3s; white-space: nowrap; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; vertical-align: middle;
+        }
+        .btn-outline-design:hover, .btn-outline:hover { background: var(--color-primary); color: #FFFFFF; transform: translateY(-2px); }
+        .dark .btn-outline-design, .dark .btn-outline { border-color: var(--color-primary-bright); color: var(--color-primary-bright); }
+        .dark .btn-outline-design:hover, .dark .btn-outline:hover { background: var(--color-primary-bright); color: #0F172A; }
+
+        .stat-card {
+            background: #FFFFFF; border-radius: 20px; padding: 1.2rem;
+            border: 1px solid rgba(var(--color-rgb-primary), 0.12);
+            transition: all 0.3s;
+        }
+        .dark .stat-card { background: #141A24; border-color: rgba(var(--color-rgb-bright), 0.15); }
+        .stat-card:hover { transform: translateY(-3px); border-color: var(--color-primary); }
+
+        .status-badge {
+            display: inline-flex; align-items: center; padding: 0.25rem 0.75rem;
+            border-radius: 40px; font-size: 0.7rem; font-weight: 700;
+        }
+        .status-active { background: #E3F2FD; color: #0D47A1; }
+        .status-pending { background: #FFF3E0; color: #E65100; }
+        .status-completed { background: #E8F5E9; color: #1B5E20; }
+        .status-cancelled { background: #FFEBEE; color: #C62828; }
+        .status-inprogress { background: #F3E5F5; color: #6A1B9A; }
+        .status-fitting { background: #FCE7F3; color: #9D174D; }
+        .dark .status-active { background: #0D47A1; color: #90CAF9; }
+        .dark .status-pending { background: #E65100; color: #FFCC80; }
+        .dark .status-completed { background: #1B5E20; color: #A5D6A7; }
+        .dark .status-cancelled { background: #B71C1C; color: #EF9A9A; }
+        .dark .status-inprogress { background: #4A148C; color: #CE93D8; }
+        .dark .status-fitting { background: #831843; color: #F9A8D4; }
+
+        .form-input {
+            width: 100%; padding: 0.75rem 1rem;
+            border-radius: 16px; border: 1.5px solid rgba(var(--color-rgb-primary), 0.2);
+            background: #FFFFFF; transition: all 0.3s;
+            color: var(--color-text-dark); font-family: 'Inter', sans-serif;
+        }
+        .dark .form-input { background: #0F172A; border-color: rgba(var(--color-rgb-bright), 0.2); color: #E2E8F0; }
+        .form-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 4px rgba(var(--color-rgb-primary), 0.15); }
+        .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--color-text-dark); }
+        .dark .form-label { color: #E2E8F0; }
+
+        .progress-bar { height: 8px; background: rgba(var(--color-rgb-primary), 0.12); border-radius: 10px; overflow: hidden; }
+        .dark .progress-bar { background: rgba(var(--color-rgb-bright), 0.15); }
+        .progress-fill { height: 100%; background: var(--color-primary); border-radius: 10px; transition: width 0.6s ease; }
+        .dark .progress-fill { background: var(--color-primary-bright); }
+
+        .page-content.hidden { display: none; }
+        .booking-slot { transition: all 0.3s; cursor: pointer; }
+        .booking-slot:hover { transform: translateY(-2px); border-color: var(--color-primary); }
+        .receipt-item { padding: 0.75rem 0; border-bottom: 1px solid rgba(var(--color-rgb-primary), 0.08); }
+        .dark .receipt-item { border-bottom-color: rgba(var(--color-rgb-bright), 0.1); }
+
+        /* RTL support */
+        [dir="rtl"] .sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid rgba(var(--color-rgb-primary), 0.12); }
+        [dir="rtl"] .main-content { margin-left: 0; margin-right: 280px; }
+        [dir="rtl"] .sidebar-item i { margin-right: 0; margin-left: 0.75rem; }
+        @media (max-width: 768px) {
+            [dir="rtl"] .sidebar { transform: translateX(100%); }
+            [dir="rtl"] .sidebar.open { transform: translateX(0); }
+            [dir="rtl"] .main-content { margin-right: 0; }
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.85; transition: all 0.2s ease; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) brightness(1.2); opacity: 0.9; }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+        /* Accessory selector chips */
+        .accessory-chip {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; border-radius: 100px;
+            border: 1.5px solid rgba(var(--color-rgb-primary), 0.2);
+            background: #FFFFFF; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            color: var(--color-text-dark);
+        }
+        .dark .accessory-chip { background: #0F172A; border-color: rgba(var(--color-rgb-bright), 0.2); color: #E2E8F0; }
+        .accessory-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .accessory-chip.active {
+            background: var(--color-primary); border-color: var(--color-primary);
+            color: #FFFFFF;
+        }
+        .dark .accessory-chip.active { background: var(--color-primary-bright); border-color: var(--color-primary-bright); color: #0F172A; }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="flex items-center gap-3">
+            <button id="menuToggle" class="toggle-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="flex items-center gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-lg font-extrabold tracking-tight text-neutral-dark dark:text-white leading-none">Black Tie</span>
+                        <span class="text-lg font-extrabold tracking-tight text-bth-accent dark:text-red-400 leading-none ml-1">House</span>
+                    </div>
+                    <span class="text-[8px] font-bold tracking-widest text-neutral-dark/60 dark:text-gray-400 uppercase mt-0.5">Client Dashboard</span>
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="theme-toggle-mobile" class="toggle-btn"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:inline"></i></button>
+            <button id="rtl-toggle-mobile" class="toggle-btn"><i class="fas fa-exchange-alt"></i></button>
+        </div>
+    </div>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="p-5 border-b border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)]">
+            <a href="index.html" class="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-extrabold tracking-tight text-neutral-dark dark:text-white leading-none">Black Tie</span>
+                        <span class="text-xl font-extrabold tracking-tight text-bth-accent dark:text-red-400 leading-none ml-1">House</span>
+                    </div>
+                    <span class="text-[9px] font-bold tracking-widest text-neutral-dark/60 dark:text-gray-400 uppercase mt-0.5">Client Dashboard</span>
+                </div>
+            </a>
+        </div>
+        <nav class="py-4">
+            <div class="sidebar-item active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="sidebar-item" data-page="bookings"><i class="fas fa-calendar-check"></i><span>My Appointments</span></div>
+            <div class="sidebar-item" data-page="new-booking"><i class="fas fa-plus-circle"></i><span>Book Fitting</span></div>
+            <div class="sidebar-item" data-page="packages"><i class="fas fa-suitcase"></i><span>My Packages</span></div>
+            <div class="sidebar-item" data-page="group-orders"><i class="fas fa-users"></i><span>Group Orders</span></div>
+            <div class="sidebar-item" data-page="payments"><i class="fas fa-credit-card"></i><span>Payments</span></div>
+            <div class="sidebar-item" data-page="documents"><i class="fas fa-file-invoice"></i><span>Documents</span></div>
+        </nav>
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)]">
+            <a href="login.html" class="flex items-center justify-center gap-2 w-full p-2.5 rounded-xl bg-[rgba(var(--color-rgb-primary),0.08)] hover:bg-bth-primary transition font-semibold text-sm text-neutral-dark dark:text-gray-200 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i><span>Sign Out</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card-design p-4 md:p-6 flex justify-between items-center flex-wrap gap-3 mb-6">
+            <div>
+                <h1 class="text-2xl font-display font-bold" id="page-title">Dashboard</h1>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400" id="page-subtitle">Welcome back, Michael</p>
+            </div>
+            <div class="hidden lg:flex items-center gap-4">
+                <button id="theme-toggle" class="toggle-btn"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:inline"></i></button>
+                <button id="rtl-toggle" class="toggle-btn"><i class="fas fa-exchange-alt"></i></button>
+                <div class="flex items-center gap-3 border-l border-[rgba(var(--color-rgb-primary),0.12)] dark:border-[rgba(var(--color-rgb-bright),0.15)] pl-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-bth-primary shadow-sm shrink-0">
+                        <img src="assets/avatar_mark.jpg" alt="Michael Johnson" class="w-full h-full object-cover object-top" style="object-position: center top;">
+                    </div>
+                    <div class="text-left hidden lg:block">
+                        <p class="text-sm font-bold text-neutral-dark dark:text-white leading-tight">Michael Johnson</p>
+                        <p class="text-[10px] text-neutral-dark/60 dark:text-gray-400">Premium Client</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DASHBOARD ========== -->
+        <div id="page-dashboard" class="page-content">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div><p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Upcoming Fittings</p><p class="text-2xl font-bold text-neutral-dark dark:text-white">2</p></div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-calendar-check text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div><p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Active Packages</p><p class="text-2xl font-bold text-neutral-dark dark:text-white">1</p></div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-suitcase text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div><p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Group Members</p><p class="text-2xl font-bold text-neutral-dark dark:text-white">7</p></div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-users text-bth-primary"></i></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex justify-between">
+                        <div><p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Balance Due</p><p class="text-2xl font-bold text-bth-primary">$398</p></div>
+                        <div class="w-10 h-10 bg-[rgba(var(--color-rgb-primary),0.08)] rounded-full flex items-center justify-center"><i class="fas fa-credit-card text-bth-primary"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card-design p-6">
+                    <h3 class="font-display font-bold text-lg mb-4">Upcoming Appointments</h3>
+                    <div class="space-y-3">
+                        <div class="flex gap-3 pb-3 border-b border-[rgba(var(--color-rgb-primary),0.08)] dark:border-[rgba(var(--color-rgb-bright),0.1)]">
+                            <i class="fas fa-scissors text-bth-primary mt-1"></i>
+                            <div class="flex-1"><p class="text-sm font-medium">Final Fitting — Wedding Party</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">Today, 3:00 PM · Mr. Alistair</p></div>
+                            <span class="status-badge status-active text-xs">Confirmed</span>
+                        </div>
+                        <div class="flex gap-3 pb-3 border-b border-[rgba(var(--color-rgb-primary),0.08)] dark:border-[rgba(var(--color-rgb-bright),0.1)]">
+                            <i class="fas fa-vest text-bth-primary mt-1"></i>
+                            <div class="flex-1"><p class="text-sm font-medium">Groomsmen Group Fitting</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">Tomorrow, 10:00 AM · 7 guests</p></div>
+                            <span class="status-badge status-pending text-xs">Scheduled</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <i class="fas fa-scissors text-bth-primary mt-1"></i>
+                            <div class="flex-1"><p class="text-sm font-medium">Alteration Pickup</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">Apr 12, 2:00 PM · Ms. Chen</p></div>
+                            <span class="status-badge status-active text-xs">Confirmed</span>
+                        </div>
+                    </div>
+                    <button data-nav="bookings" class="btn-outline-design w-full mt-4 py-2 text-sm">View All Appointments</button>
+                </div>
+                <div class="card-design p-6">
+                    <h3 class="font-display font-bold text-lg mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button data-nav="new-booking" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-calendar-plus text-bth-primary"></i><span>Book a Fitting</span>
+                        </button>
+                        <button data-nav="packages" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-suitcase text-bth-primary"></i><span>Browse Packages</span>
+                        </button>
+                        <button data-nav="payments" class="w-full text-left px-4 py-3 bg-[rgba(var(--color-rgb-primary),0.08)] dark:bg-[rgba(var(--color-rgb-bright),0.1)] text-neutral-dark dark:text-white rounded-xl hover:bg-[rgba(var(--color-rgb-primary),0.2)] transition flex items-center gap-3">
+                            <i class="fas fa-credit-card text-bth-primary"></i><span>Make a Payment</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group order progress -->
+            <div class="card-design p-6 mt-6">
+                <div class="flex flex-wrap justify-between items-start gap-3 mb-5">
+                    <div>
+                        <h3 class="font-display font-bold text-lg">Group Order — Johnson Wedding</h3>
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400">7 groomsmen · Wedding on May 17, 2026</p>
+                    </div>
+                    <span class="status-badge status-inprogress text-xs">In Coordination</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1.5">
+                            <span class="text-neutral-dark/60 dark:text-gray-400">Measurements</span>
+                            <span class="font-bold text-bth-primary">7 / 7</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1.5">
+                            <span class="text-neutral-dark/60 dark:text-gray-400">Fittings Complete</span>
+                            <span class="font-bold text-bth-primary">5 / 7</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 71%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1.5">
+                            <span class="text-neutral-dark/60 dark:text-gray-400">Final Payments</span>
+                            <span class="font-bold text-bth-primary">3 / 7</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 43%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MY APPOINTMENTS ========== -->
+        <div id="page-bookings" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">My Appointments</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Track all your fitting appointments, group sessions, and pickups.</p>
+                <div class="space-y-4">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Final Fitting — Wedding Party</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">April 9, 2026 · 3:00 PM – 3:45 PM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-active">Confirmed</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Tailor: Mr. Alistair</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-calendar-alt mr-1"></i>Reschedule</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Details</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex text-xs text-neutral-dark/60 dark:text-gray-400 gap-4">
+                                <span><i class="fas fa-clock mr-1"></i> 45 min</span>
+                                <span><i class="fas fa-map-marker-alt mr-1"></i> 456 Madison Ave, NY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Groomsmen Group Fitting</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">April 10, 2026 · 10:00 AM – 12:00 PM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-pending">Scheduled</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Coordinator: James · 7 guests</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-calendar-alt mr-1"></i>Reschedule</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Details</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex text-xs text-neutral-dark/60 dark:text-gray-400 gap-4">
+                                <span><i class="fas fa-clock mr-1"></i> 120 min</span>
+                                <span><i class="fas fa-map-marker-alt mr-1"></i> 456 Madison Ave, NY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Initial Style Consultation</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">April 2, 2026 · 11:00 AM – 11:45 AM</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-completed">Completed</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Stylist: Sofia</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-outline-design text-xs px-4 py-1.5"><i class="fas fa-download mr-1"></i>Notes</button>
+                                <button class="btn-primary-design text-xs px-4 py-1.5"><i class="fas fa-eye mr-1"></i>Review</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex text-xs text-neutral-dark/60 dark:text-gray-400 gap-4">
+                                <span><i class="fas fa-clock mr-1"></i> 45 min</span>
+                                <span><i class="fas fa-map-marker-alt mr-1"></i> 456 Madison Ave, NY</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== BOOK FITTING ========== -->
+        <div id="page-new-booking" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">Book a Fitting</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Select appointment type, date, and time. All fittings are complimentary.</p>
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Appointment Type <span class="text-bth-primary">*</span></label>
+                            <select class="form-input">
+                                <option value="">Select type</option>
+                                <option>Individual Fitting (45 min)</option>
+                                <option>Group Fitting (120 min)</option>
+                                <option>Final Fitting & Pickup (30 min)</option>
+                                <option>Style Consultation (45 min)</option>
+                                <option>Alteration Drop-off (20 min)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Preferred Date <span class="text-bth-primary">*</span></label>
+                            <input type="date" class="form-input" value="2026-04-09" min="2026-04-09" />
+                        </div>
+                        <div>
+                            <label class="form-label">Preferred Time <span class="text-bth-primary">*</span></label>
+                            <select class="form-input">
+                                <option>9:00 AM – 9:45 AM</option>
+                                <option selected>10:00 AM – 10:45 AM</option>
+                                <option>11:00 AM – 11:45 AM</option>
+                                <option>1:00 PM – 1:45 PM</option>
+                                <option>2:00 PM – 2:45 PM</option>
+                                <option>3:00 PM – 3:45 PM</option>
+                                <option>4:00 PM – 4:45 PM</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Tailor Preference</label>
+                            <select class="form-input">
+                                <option>Any available</option>
+                                <option>Mr. Alistair</option>
+                                <option>Ms. Chen</option>
+                                <option>James (Group Coordinator)</option>
+                                <option>Sofia (Style Consultant)</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Select Accessories & Add-ons</label>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                <button type="button" class="accessory-chip active"><i class="fas fa-vest"></i> Vest</button>
+                                <button type="button" class="accessory-chip active"><i class="fas fa-socks"></i> Silk Tie</button>
+                                <button type="button" class="accessory-chip"><i class="fas fa-hand-sparkles"></i> Pocket Square</button>
+                                <button type="button" class="accessory-chip"><i class="fas fa-shoe-prints"></i> Shoes</button>
+                                <button type="button" class="accessory-chip"><i class="fas fa-ring"></i> Cufflinks</button>
+                                <button type="button" class="accessory-chip"><i class="fas fa-hat-cowboy"></i> Hat</button>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Special Requests</label>
+                            <textarea class="form-input" rows="3" placeholder="Event details, color preferences, or anything we should know"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary-design w-full mt-6 py-3 text-lg font-bold inline-flex items-center justify-center gap-2">
+                        <i class="fas fa-check-circle"></i> Confirm Booking
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ========== MY PACKAGES ========== -->
+        <div id="page-packages" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">My Packages</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Your selected rental packages and included accessories.</p>
+                <div class="space-y-4">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Signature Ten — Groom Package</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">Event: Johnson Wedding · May 17, 2026</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-active">Confirmed</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Rental · 5 days</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-bth-primary">$199</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">Paid in full</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Midnight Blue Tuxedo</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Pleated Dress Shirt</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Silk Bow Tie & Pocket Square</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Patent Leather Oxfords</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Cufflinks</span>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <div class="flex flex-wrap justify-between items-start gap-3">
+                            <div>
+                                <p class="font-bold text-lg">Groomsmen Package × 6</p>
+                                <p class="text-sm text-neutral-dark/60 dark:text-gray-400">Event: Johnson Wedding · May 17, 2026</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="status-badge status-pending">Partially Paid</span>
+                                    <span class="text-xs text-neutral-dark/60 dark:text-gray-400">Group rental</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-bth-primary">$954</p>
+                                <p class="text-xs text-neutral-dark/60 dark:text-gray-400">$398 balance due</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Charcoal Three-Piece Suits</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Matching Silk Ties</span>
+                            <span class="text-xs px-3 py-1 bg-white dark:bg-dark-card border border-[rgba(var(--color-rgb-primary),0.15)] rounded-full"><i class="fas fa-check text-bth-primary mr-1"></i> Pocket Squares</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== GROUP ORDERS ========== -->
+        <div id="page-group-orders" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">Group Orders</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Coordinate your wedding party, prom group, or corporate event.</p>
+                <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)] mb-4">
+                    <div class="flex flex-wrap justify-between items-start gap-3 mb-4">
+                        <div>
+                            <p class="font-bold text-lg">Johnson Wedding Party</p>
+                            <p class="text-sm text-neutral-dark/60 dark:text-gray-400">7 members · Wedding: May 17, 2026</p>
+                        </div>
+                        <span class="status-badge status-inprogress">In Coordination</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="flex items-center gap-2"><i class="fas fa-user-check text-bth-primary"></i> Measurements collected</span>
+                            <span class="font-bold">7 / 7</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="flex items-center gap-2"><i class="fas fa-scissors text-bth-primary"></i> Fittings completed</span>
+                            <span class="font-bold">5 / 7</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="flex items-center gap-2"><i class="fas fa-credit-card text-bth-primary"></i> Payments received</span>
+                            <span class="font-bold">3 / 7</span>
+                        </div>
+                    </div>
+                    <button class="btn-outline-design w-full mt-5 py-2 text-sm">Manage Group Order</button>
+                </div>
+                <button class="btn-primary-design w-full py-3 text-sm">
+                    <i class="fas fa-plus mr-2"></i> Start New Group Order
+                </button>
+            </div>
+        </div>
+
+        <!-- ========== PAYMENTS ========== -->
+        <div id="page-payments" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">Payments</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">View your balance, invoices, and payment history.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Total Paid</p>
+                        <p class="text-2xl font-bold text-emerald-500">$1,153</p>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Balance Due</p>
+                        <p class="text-2xl font-bold text-bth-primary">$398</p>
+                    </div>
+                    <div class="p-5 bg-[rgba(var(--color-rgb-primary),0.04)] dark:bg-[rgba(var(--color-rgb-bright),0.05)] rounded-2xl border border-[rgba(var(--color-rgb-primary),0.08)]">
+                        <p class="text-xs text-neutral-dark/60 dark:text-gray-400 mb-1">Next Due Date</p>
+                        <p class="text-2xl font-bold">May 1</p>
+                    </div>
+                </div>
+
+                <button class="btn-primary-design w-full py-3 text-sm mb-6">
+                    <i class="fas fa-credit-card mr-2"></i> Pay Balance Now
+                </button>
+
+                <h4 class="font-display font-bold text-lg mb-3">Payment History</h4>
+                <div class="space-y-2">
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold text-sm">Deposit — Groom Package</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">March 28, 2026 · Visa •••• 4521</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm">$100</span>
+                            <span class="status-badge status-completed text-xs">Paid</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold text-sm">Balance — Groom Package</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">April 5, 2026 · Visa •••• 4521</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm">$99</span>
+                            <span class="status-badge status-completed text-xs">Paid</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold text-sm">Groomsmen Package × 6</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">April 6, 2026 · Mastercard •••• 8830</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm">$954</span>
+                            <span class="status-badge status-pending text-xs">Partial</span>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold text-sm">Accessory Add-ons</p><p class="text-xs text-neutral-dark/60 dark:text-gray-400">April 7, 2026 · Visa •••• 4521</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm">$0</span>
+                            <span class="status-badge status-completed text-xs">Included</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DOCUMENTS ========== -->
+        <div id="page-documents" class="page-content hidden">
+            <div class="card-design p-6">
+                <h3 class="font-display font-bold text-2xl mb-4">Documents</h3>
+                <p class="text-sm text-neutral-dark/60 dark:text-gray-400 mb-6">Download invoices, rental agreements, and fitting reports.</p>
+                <div class="space-y-2">
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold">Rental Agreement — Groom Package</p><p class="text-sm text-neutral-dark/60 dark:text-gray-400">March 28, 2026 · Signed</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-completed text-xs">Available</span>
+                            <button class="text-bth-primary hover:text-bth-primary-dark"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold">Invoice #INV-2026-0421</p><p class="text-sm text-neutral-dark/60 dark:text-gray-400">Groom Package · $199</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-completed text-xs">Paid</span>
+                            <button class="text-bth-primary hover:text-bth-primary-dark"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold">Group Order Summary — Johnson Wedding</p><p class="text-sm text-neutral-dark/60 dark:text-gray-400">7 members · 3 paid</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-completed text-xs">Available</span>
+                            <button class="text-bth-primary hover:text-bth-primary-dark"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold">Fitting Measurements Report</p><p class="text-sm text-neutral-dark/60 dark:text-gray-400">Final fitting · April 9, 2026</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-pending text-xs">Processing</span>
+                            <button class="text-bth-primary hover:text-bth-primary-dark disabled:opacity-40"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="receipt-item flex justify-between items-center">
+                        <div><p class="font-bold">Style Consultation Notes</p><p class="text-sm text-neutral-dark/60 dark:text-gray-400">April 2, 2026 · Sofia</p></div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-completed text-xs">Available</span>
+                            <button class="text-bth-primary hover:text-bth-primary-dark"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // RTL Toggle
+            const rtlToggle = document.getElementById('rtl-toggle');
+            const rtlToggleMobile = document.getElementById('rtl-toggle-mobile');
+            function setRTL(isRTL) {
+                document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+                localStorage.setItem('dir', isRTL ? 'rtl' : 'ltr');
+            }
+            const savedDir = localStorage.getItem('dir');
+            setRTL(savedDir === 'rtl');
+            if (rtlToggle) rtlToggle.addEventListener('click', () => setRTL(document.documentElement.getAttribute('dir') !== 'rtl'));
+            if (rtlToggleMobile) rtlToggleMobile.addEventListener('click', () => setRTL(document.documentElement.getAttribute('dir') !== 'rtl'));
+
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            function setTheme(isDark) {
+                if (isDark) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                [themeToggle, themeToggleMobile].forEach(btn => {
+                    if (btn) {
+                        let moon = btn.querySelector('.fa-moon'), sun = btn.querySelector('.fa-sun');
+                        if (isDark) { moon?.classList.add('hidden'); sun?.classList.remove('hidden'); }
+                        else { moon?.classList.remove('hidden'); sun?.classList.add('hidden'); }
+                    }
+                });
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            }
+            const savedTheme = localStorage.getItem('theme');
+            setTheme(savedTheme === 'dark');
+            if (themeToggle) themeToggle.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
+            if (themeToggleMobile) themeToggleMobile.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
+
+            // Mobile Sidebar
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+            function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('open'); }
+            if (menuToggle) menuToggle.addEventListener('click', (e) => { e.stopPropagation(); sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+            if (overlay) overlay.addEventListener('click', closeSidebar);
+            window.addEventListener('resize', () => { if (window.innerWidth > 768 && sidebar.classList.contains('open')) closeSidebar(); });
+
+            // Navigation
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            const pages = document.querySelectorAll('.page-content');
+            const pageTitle = document.getElementById('page-title');
+            const pageSubtitle = document.getElementById('page-subtitle');
+            const titles = {
+                dashboard: { title: 'Dashboard', subtitle: 'Welcome back, Michael' },
+                bookings: { title: 'My Appointments', subtitle: 'Track your fittings and pickups' },
+                'new-booking': { title: 'Book Fitting', subtitle: 'Schedule your next appointment' },
+                packages: { title: 'My Packages', subtitle: 'Your selected rental packages' },
+                'group-orders': { title: 'Group Orders', subtitle: 'Coordinate your wedding or event party' },
+                payments: { title: 'Payments', subtitle: 'Balances, invoices, and payment history' },
+                documents: { title: 'Documents', subtitle: 'Download agreements and reports' }
+            };
+            function navigateTo(page) {
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                document.querySelector(`.sidebar-item[data-page="${page}"]`)?.classList.add('active');
+                pages.forEach(p => p.classList.add('hidden'));
+                document.getElementById(`page-${page}`)?.classList.remove('hidden');
+                if (titles[page]) { pageTitle.textContent = titles[page].title; pageSubtitle.textContent = titles[page].subtitle; }
+                closeSidebar();
+            }
+            sidebarItems.forEach(item => { item.addEventListener('click', () => { navigateTo(item.getAttribute('data-page')); }); });
+            document.querySelectorAll('[data-nav]').forEach(btn => { btn.addEventListener('click', () => { navigateTo(btn.getAttribute('data-nav')); }); });
+
+            // Accessory chip toggle
+            document.querySelectorAll('.accessory-chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    chip.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg?v=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Shop the Collection · Black Tie House</title>
+
+    <script src="tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['class', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-text': 'var(--color-primary-text)',
+                        'secondary-text': 'var(--color-secondary-text)',
+                        accent: 'var(--color-accent)',
+                        'accent-light': 'var(--color-accent-light)',
+                        'accent-dark': 'var(--color-accent-dark)',
+                        border: 'var(--color-border)',
+                        hover: 'var(--color-hover)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root, html[data-theme='light'] {
+            --color-background: #FFFFFF;
+            --color-primary-text: #0F172A;
+            --color-secondary-text: #64748B;
+            --color-accent: #9B2C2C;
+            --color-accent-light: #C53030;
+            --color-accent-dark: #742A2A;
+            --color-border: #E2E8F0;
+            --color-hover: #F8FAFC;
+            --color-footer-bg: #0F172A;
+            --color-footer-text: #FFFFFF;
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --surface: #FFFFFF;
+            --surface-2: #F8FAFC;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.08);
+            --shadow-accent: 0 12px 32px rgba(155, 44, 44, 0.18);
+        }
+        html[data-theme='dark'] {
+            --color-background: #0F172A;
+            --color-primary-text: #F8FAFC;
+            --color-secondary-text: #94A3B8;
+            --color-accent: #E53E3E;
+            --color-accent-light: #FC8181;
+            --color-accent-dark: #C53030;
+            --color-border: #1E293B;
+            --color-hover: #1E293B;
+            --color-footer-bg: #030712;
+            --color-footer-text: #FFFFFF;
+            --header-bg: rgba(15, 23, 42, 0.85);
+            --surface: #0F172A;
+            --surface-2: #1E293B;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+            --shadow-accent: 0 12px 32px rgba(229, 62, 62, 0.25);
+        }
+
+        * { -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-primary-text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--color-background); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+        .text-primary-text { color: var(--color-primary-text); }
+        .text-secondary-text { color: var(--color-secondary-text); }
+        .text-accent { color: var(--color-accent); }
+        .bg-background { background-color: var(--color-background); }
+        .bg-hover { background-color: var(--color-hover); }
+        .bg-accent { background-color: var(--color-accent); }
+        .border-border { border-color: var(--color-border); }
+        .border-accent { border-color: var(--color-accent); }
+        .hover\:text-accent:hover { color: var(--color-accent) !important; }
+
+        #main-header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        #main-footer {
+            background-color: var(--color-footer-bg);
+            color: var(--color-footer-text);
+        }
+        #main-footer .footer-heading { color: var(--color-accent) !important; }
+        #main-footer .footer-link:hover { color: var(--color-accent); padding-left: 4px; transition: all 0.2s ease; }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 2.5px;
+            background-color: var(--color-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            border-radius: 4px;
+        }
+        .nav-link:hover:not(.active)::after { transform: scaleX(1); }
+        .nav-link.active { color: var(--color-accent) !important; }
+
+        .mobile-nav-link {
+            color: var(--color-primary-text);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+        .mobile-nav-link:hover { color: var(--color-accent); background-color: var(--color-hover); }
+        .mobile-nav-link.active {
+            color: var(--color-accent) !important;
+            background-color: rgba(155, 44, 44, 0.08);
+            font-weight: 700 !important;
+            border-left: 3.5px solid var(--color-accent);
+            padding-left: 0.85rem !important;
+        }
+        html[data-theme='dark'] .mobile-nav-link.active { background-color: rgba(229, 62, 62, 0.15); }
+        html[dir='rtl'] .mobile-nav-link.active {
+            border-left: none;
+            border-right: 3.5px solid var(--color-accent);
+            padding-left: 0.75rem !important;
+            padding-right: 0.85rem !important;
+        }
+        .mobile-nav-sublink { transition: all 0.2s ease; }
+        .mobile-nav-sublink:hover, .mobile-nav-sublink.active {
+            color: var(--color-accent) !important;
+            font-weight: 600 !important;
+        }
+
+        .dropdown-wrapper { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            padding: 0.4rem 0;
+        }
+        .dropdown-wrapper:hover .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+            display: block;
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            color: var(--color-primary-text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .dropdown-menu a:last-child { border-bottom: none; }
+        .dropdown-menu a:hover {
+            background-color: var(--color-hover);
+            color: var(--color-accent);
+            padding-left: 1.5rem;
+        }
+        .dropdown-menu a.active { color: var(--color-accent); }
+        .dropdown-menu a i { width: 20px; color: var(--color-accent); margin-right: 8px; }
+
+        @media (max-width: 1024px) {
+            .dropdown-menu { position: static; display: none; opacity: 1; visibility: visible; transform: none; box-shadow: none; }
+            .dropdown-wrapper:hover .dropdown-menu { display: block; }
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            background: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(155, 44, 44, 0.35);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-outline {
+            background: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-outline:hover {
+            background: var(--color-accent);
+            color: white;
+            box-shadow: 0 4px 16px rgba(155, 44, 44, 0.25);
+            transform: translateY(-2px);
+        }
+        .btn-outline:active { transform: translateY(0); }
+        html[data-theme='dark'] .btn-outline:hover { background: var(--color-accent); color: #fff; }
+
+        /* ========== SHOP PAGE — REFINED DESIGN ========== */
+
+        /* Page hero */
+        .page-hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #742A2A 130%);
+        }
+        .page-hero::before {
+            content: none;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--color-background), transparent);
+            z-index: 2;
+        }
+        .page-hero > * {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Eyebrow label */
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+        }
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        /* Collection banner */
+        .collection-banner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #742A2A 130%);
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        .collection-banner::before {
+            content: '';
+            position: absolute;
+            top: -60%; right: -10%;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(229, 62, 62, 0.35) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .collection-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -70%; left: 30%;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(155, 44, 44, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Filter sidebar */
+        .filter-group {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .filter-group:last-child { border-bottom: none; }
+        .filter-group-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-secondary-text);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .filter-group-title:hover { color: var(--color-accent); }
+        .filter-group-title i { font-size: 0.65rem; transition: transform 0.2s ease; }
+
+        .filter-check {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.42rem 0;
+            font-size: 0.875rem;
+            color: var(--color-primary-text);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            border-radius: 8px;
+        }
+        .filter-check:hover { color: var(--color-accent); }
+        .filter-check input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--color-border);
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .filter-check input[type="checkbox"]:checked {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+        .filter-check input[type="checkbox"]:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.6rem;
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .filter-check .count {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: var(--color-secondary-text);
+            background: var(--color-hover);
+            padding: 0.1rem 0.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+        }
+
+        /* Color swatches */
+        .swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            padding: 0;
+        }
+        .swatch:hover { transform: scale(1.12); border-color: var(--color-accent); }
+        .swatch.active {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-background), 0 0 0 5px var(--color-accent);
+        }
+
+        /* Price range slider */
+        .range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 100px;
+            background: var(--color-border);
+            outline: none;
+            cursor: pointer;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            border: 3px solid var(--color-background);
+            box-shadow: 0 2px 8px rgba(155, 44, 44, 0.4);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .range-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        .range-slider::-moz-range-thumb {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            border: 3px solid var(--color-background);
+            box-shadow: 0 2px 8px rgba(155, 44, 44, 0.4);
+            cursor: pointer;
+        }
+
+        /* Toolbar */
+        .toolbar-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1.5px solid transparent;
+            background: var(--color-hover);
+            color: var(--color-secondary-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .toolbar-chip:hover { color: var(--color-accent); border-color: var(--color-accent); }
+        .toolbar-chip.active {
+            background: var(--color-accent);
+            color: white;
+            box-shadow: 0 6px 16px rgba(155, 44, 44, 0.28);
+        }
+
+        .sort-select {
+            appearance: none;
+            background: var(--color-background);
+            border: 1.5px solid var(--color-border);
+            border-radius: 100px;
+            padding: 0.55rem 2.5rem 0.55rem 1.1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-primary-text);
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239B2C2C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+        .sort-select:focus { outline: none; border-color: var(--color-accent); }
+
+        /* Product card — refined */
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-accent);
+            border-color: var(--color-accent);
+        }
+        .product-img {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: var(--color-hover);
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .product-card:hover .product-img img { transform: scale(1.08); }
+
+        .product-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.5) 0%, transparent 45%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+        .product-card:hover .product-img::after { opacity: 1; }
+
+        .product-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+            background: var(--color-accent);
+            color: white;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(155, 44, 44, 0.35);
+        }
+        .product-badge.new { background: #0F172A; color: #fff; }
+        html[data-theme='dark'] .product-badge.new { background: #E2E8F0; color: #0F172A; }
+        .product-badge.sale { background: #15803D; }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            transition: all 0.25s ease;
+            z-index: 2;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(-6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        html[data-theme='dark'] .wishlist-btn { background: rgba(15, 23, 42, 0.9); color: #94A3B8; }
+        .product-card:hover .wishlist-btn { opacity: 1; transform: translateY(0); }
+        .wishlist-btn:hover { background: var(--color-accent); color: white; transform: scale(1.1); }
+        .wishlist-btn.active { background: var(--color-accent); color: white; opacity: 1; transform: translateY(0); }
+
+        /* Quick view */
+        .quick-view {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            right: 14px;
+            z-index: 3;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .product-card:hover .quick-view { opacity: 1; transform: translateY(0); }
+
+        .product-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .product-category {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin-bottom: 0.35rem;
+        }
+        .product-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-primary-text);
+            line-height: 1.35;
+        }
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--color-secondary-text);
+        }
+        .rating-stars { color: #F59E0B; font-size: 0.7rem; letter-spacing: 0.05em; }
+
+        .product-swatches {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+        .mini-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1.5px solid var(--color-border);
+            transition: transform 0.2s ease;
+        }
+        .mini-swatch:hover { transform: scale(1.2); }
+
+        .product-footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-border);
+        }
+        .price-now {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--color-primary-text);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        .price-was {
+            font-size: 0.8rem;
+            color: var(--color-secondary-text);
+            text-decoration: line-through;
+            margin-left: 0.4rem;
+        }
+        .price-unit {
+            font-size: 0.68rem;
+            color: var(--color-secondary-text);
+            font-weight: 500;
+            margin-top: 0.2rem;
+            display: block;
+        }
+
+        .add-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--color-hover);
+            color: var(--color-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+        .add-btn:hover {
+            background: var(--color-accent);
+            color: white;
+            transform: scale(1.08);
+            box-shadow: 0 6px 16px rgba(155, 44, 44, 0.35);
+        }
+
+        /* Pagination */
+        .page-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1.5px solid var(--color-border);
+            background: var(--color-background);
+            color: var(--color-primary-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .page-btn:hover:not(:disabled):not(.active) { border-color: var(--color-accent); color: var(--color-accent); }
+        .page-btn.active {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+            box-shadow: 0 6px 16px rgba(155, 44, 44, 0.3);
+        }
+        .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* Trust bar */
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.6rem;
+            padding: 1.5rem 1rem;
+            transition: transform 0.3s ease;
+        }
+        .trust-item:hover { transform: translateY(-4px); }
+        .trust-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-accent);
+            font-size: 1.15rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        .trust-item:hover .trust-icon {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow-accent);
+        }
+
+        /* Mobile filter drawer */
+        .mobile-filter-bar {
+            display: flex;
+            gap: 0.6rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+        }
+        .mobile-filter-bar::-webkit-scrollbar { display: none; }
+
+        @media (max-width: 1023px) {
+            .filter-sidebar { display: none; }
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- ======== HEADER / NAVIGATION ======== -->
+    <header class="sticky top-0 z-50 transition-colors duration-300 shadow-md border-b border-border bg-background" id="main-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between h-[72px]">
+            <a href="index.html" class="flex items-center gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                    <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-extrabold tracking-tight text-primary-text leading-none font-sans">Black Tie</span>
+                        <span class="text-2xl font-extrabold tracking-tight text-accent leading-none font-sans ml-1.5">House</span>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-[0.15em] text-secondary-text uppercase mt-1">Formalwear & Tuxedo</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden xl:flex items-center space-x-5">
+                <div class="flex space-x-4 rtl:space-x-reverse rtl:ml-6 text-primary-text font-medium">
+                    <div class="dropdown-wrapper">
+                        <button class="nav-link home-nav-link flex items-center">
+                            Home <svg class="w-3 h-3 ml-1 relative top-[2px] transition-transform duration-200 text-primary-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html">Home 1</a>
+                            <a href="home2.html">Home 2</a>
+                        </div>
+                    </div>
+                    
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="shop.html" class="nav-link active">Shop the Collection</a>
+                    <a href="group-orders.html" class="nav-link">Group Orders</a>
+                    <a href="appointments.html" class="nav-link">Fitting Appointments</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    
+                    <div class="dropdown-wrapper">
+                        <button class="nav-link flex items-center">
+                            Dashboard <svg class="w-3 h-3 ml-1 relative top-[2px] transition-transform duration-200 text-primary-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="client.html">Client</a>
+                            <a href="admin.html">Admin</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-px h-6 bg-border mx-2"></div>
+
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" class="text-primary-text hover:text-accent p-2 rounded-md border border-border transition duration-200">
+                        <svg class="w-5 h-5 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 dark-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                    <button id="rtl-toggle" class="text-primary-text hover:text-accent p-2 rounded-md border border-border transition duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
+                    </button>
+
+                    <div class="flex items-center gap-2 ml-2">
+                        <a href="login.html" class="btn-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-sm hover:shadow-lg transition-all duration-200">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="xl:hidden flex items-center gap-2">
+                <button class="text-primary-text hover:text-accent p-2 rounded-full border border-border" title="Search">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <button id="mobile-menu-open" class="text-primary-text hover:text-accent p-1.5 rounded-full">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main class="flex-grow">
+
+        <!-- ======== PAGE HERO ======== -->
+        <section class="page-hero">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 text-center">
+                <nav class="flex items-center justify-center gap-2 text-xs text-white/60 mb-8">
+                    <a href="index.html" class="hover:text-white transition font-medium">Home</a>
+                    <i class="fa-solid fa-chevron-right text-[8px] opacity-60"></i>
+                    <span class="text-white font-semibold">Shop the Collection</span>
+                </nav>
+                <div class="max-w-3xl mx-auto">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05] mt-4">
+                        Dressed for the <span class="italic" style="color: #FC8181;">occasion</span>
+                    </h1>
+                    <p class="text-white/70 text-base sm:text-lg lg:text-xl mt-6 max-w-xl mx-auto leading-relaxed">
+                        From timeless tuxedos to modern slim-fit suits — every piece is tailored, curated, and ready for your next milestone.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
+                    <a href="#products" class="btn-primary px-8 py-3.5 rounded-full font-bold text-sm shadow-lg inline-flex items-center gap-2">
+                        Browse Collection <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <a href="appointments.html" class="btn-outline px-8 py-3.5 rounded-full font-bold text-sm border-white/40 text-white hover:bg-white hover:text-[#742A2A]">
+                        Book a Fitting
+                    </a>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-6 mt-12 pt-6 border-t border-white/15">
+                    <div class="flex items-center gap-2 text-sm text-white/70">
+                        <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
+                        <span><span class="font-bold text-white">48</span> curated pieces</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-white/70">
+                        <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
+                        <span>Free alterations on all rentals</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-white/70">
+                        <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
+                        <span>Rent or purchase</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== FEATURED COLLECTION BANNER ======== -->
+        <section class="py-10 lg:py-14 bg-background">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="collection-banner p-8 sm:p-12 lg:p-14">
+                    <div class="relative z-10 max-w-xl">
+                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.15em] mb-5">
+                            <i class="fa-solid fa-star text-[#FC8181]"></i> Limited Edition
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                            The Midnight Velvet Collection
+                        </h2>
+                        <p class="text-white/70 text-sm sm:text-base mt-4 leading-relaxed">
+                            Deep burgundy and navy velvet dinner jackets, crafted for the upcoming gala season. Only 20 pieces available.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-4 mt-7">
+                            <a href="#" class="bg-white text-[#742A2A] px-7 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2">
+                                Explore Collection <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                            <a href="#" class="text-white font-semibold text-sm hover:underline inline-flex items-center gap-2">
+                                View lookbook <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== MOBILE FILTER BAR (visible on small screens) ======== -->
+        <section class="lg:hidden sticky top-[72px] z-40 bg-background border-b border-border py-3">
+            <div class="container mx-auto px-4">
+                <div class="mobile-filter-bar">
+                    <button class="toolbar-chip active whitespace-nowrap"><i class="fa-solid fa-sliders"></i> Filters</button>
+                    <button class="toolbar-chip whitespace-nowrap">Tuxedos</button>
+                    <button class="toolbar-chip whitespace-nowrap">Suits</button>
+                    <button class="toolbar-chip whitespace-nowrap">Jackets</button>
+                    <button class="toolbar-chip whitespace-nowrap">Shirts</button>
+                    <button class="toolbar-chip whitespace-nowrap">Accessories</button>
+                    <button class="toolbar-chip whitespace-nowrap">Rental</button>
+                    <button class="toolbar-chip whitespace-nowrap">Purchase</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SHOP LAYOUT ======== -->
+        <section class="py-10 lg:py-14 bg-background">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-10">
+
+                    <!-- ===== SIDEBAR FILTERS ===== -->
+                    <aside class="filter-sidebar lg:w-72 w-full shrink-0">
+                        <div class="sticky top-24 space-y-1">
+
+                            <!-- Header -->
+                            <div class="flex items-center justify-between pb-4">
+                                <h3 class="font-extrabold text-lg text-primary-text flex items-center gap-2">
+                                    <i class="fa-solid fa-sliders text-accent text-sm"></i> Refine
+                                </h3>
+                                <button class="text-xs font-semibold text-accent hover:underline">Clear all</button>
+                            </div>
+
+                            <!-- Search -->
+                            <div class="pb-5">
+                                <div class="relative">
+                                    <input type="text" placeholder="Search collection..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-border bg-background text-primary-text placeholder-secondary-text text-sm focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-secondary-text text-xs"></i>
+                                </div>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">
+                                    <span>Category</span>
+                                    <i class="fa-solid fa-chevron-up"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="filter-check"><input type="checkbox" checked> Tuxedos <span class="count">18</span></label>
+                                    <label class="filter-check"><input type="checkbox" checked> Suits <span class="count">22</span></label>
+                                    <label class="filter-check"><input type="checkbox"> Dinner Jackets <span class="count">8</span></label>
+                                    <label class="filter-check"><input type="checkbox"> Shirts <span class="count">14</span></label>
+                                    <label class="filter-check"><input type="checkbox"> Accessories <span class="count">26</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Fit -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">
+                                    <span>Fit</span>
+                                    <i class="fa-solid fa-chevron-up"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="filter-check"><input type="checkbox" checked> Slim Fit</label>
+                                    <label class="filter-check"><input type="checkbox"> Classic Fit</label>
+                                    <label class="filter-check"><input type="checkbox"> Modern Fit</label>
+                                    <label class="filter-check"><input type="checkbox"> Tailored Fit</label>
+                                </div>
+                            </div>
+
+                            <!-- Color -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">
+                                    <span>Color</span>
+                                    <i class="fa-solid fa-chevron-up"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-3">
+                                    <button class="swatch active" style="background:#0F172A" title="Black"></button>
+                                    <button class="swatch" style="background:#1E3A8A" title="Navy"></button>
+                                    <button class="swatch" style="background:#7F1D1D" title="Burgundy"></button>
+                                    <button class="swatch" style="background:#4B5563" title="Charcoal"></button>
+                                    <button class="swatch" style="background:#F8FAFC; border-color:#CBD5E1" title="White"></button>
+                                    <button class="swatch" style="background:#0D9488" title="Emerald"></button>
+                                </div>
+                            </div>
+
+                            <!-- Price Range -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">
+                                    <span>Price Range</span>
+                                    <i class="fa-solid fa-chevron-up"></i>
+                                </div>
+                                <div class="pt-1">
+                                    <input type="range" min="0" max="300" value="200" class="range-slider w-full">
+                                    <div class="flex justify-between items-center mt-3 text-xs font-semibold">
+                                        <span class="text-secondary-text">$0</span>
+                                        <span class="text-accent bg-accent/10 px-2.5 py-0.5 rounded-full">$0 – $200</span>
+                                        <span class="text-secondary-text">$300+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Availability -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">
+                                    <span>Availability</span>
+                                    <i class="fa-solid fa-chevron-up"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="filter-check"><input type="checkbox" checked> Available for Rent</label>
+                                    <label class="filter-check"><input type="checkbox" checked> Available for Purchase</label>
+                                    <label class="filter-check"><input type="checkbox"> In Stock Now</label>
+                                </div>
+                            </div>
+
+                            <!-- Promo card -->
+                            <div class="rounded-2xl p-5 mt-4 bg-gradient-to-br from-accent to-accent-dark text-white relative overflow-hidden">
+                                <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full"></div>
+                                <i class="fa-solid fa-gift text-2xl mb-3 opacity-90"></i>
+                                <h4 class="font-bold text-sm">Group Booking?</h4>
+                                <p class="text-white/80 text-xs mt-1.5 leading-relaxed">Get 15% off when you rent 6+ outfits together.</p>
+                                <a href="group-orders.html" class="inline-flex items-center gap-1.5 text-xs font-bold mt-3 hover:underline">
+                                    Learn more <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </aside>
+
+                    <!-- ===== PRODUCT GRID ===== -->
+                    <div class="flex-grow min-w-0">
+
+                        <!-- Toolbar -->
+                        <div class="hidden lg:flex items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button class="toolbar-chip active">All</button>
+                                <button class="toolbar-chip">Tuxedos</button>
+                                <button class="toolbar-chip">Suits</button>
+                                <button class="toolbar-chip">Jackets</button>
+                                <button class="toolbar-chip">Shirts</button>
+                                <button class="toolbar-chip">Accessories</button>
+                            </div>
+                            <div class="flex items-center gap-3 shrink-0">
+                                <span class="text-xs text-secondary-text font-medium">Showing 1–9 of 48</span>
+                                <select class="sort-select">
+                                    <option>Featured</option>
+                                    <option>Price: Low → High</option>
+                                    <option>Price: High → Low</option>
+                                    <option>Newest Arrivals</option>
+                                    <option>Top Rated</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Products -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-7">
+
+                            <!-- Product 1 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge">Best Seller</span>
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="/assets/b4.jpg" alt="Classic Black Tuxedo">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Tuxedo · Rental</span>
+                                    <h3 class="product-title">Classic Black Peak Lapel</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>4.9 · 124 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                        <span class="mini-swatch" style="background:#4B5563"></span>
+                                        <span class="text-[10px] text-secondary-text font-medium ml-1">+2</span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$149</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 2 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge new">New In</span>
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_italian_wool_suit.jpg" alt="Italian Wool Suit">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Suit · Rental</span>
+                                    <h3 class="product-title">Italian Wool Slim Suit</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                                        <span>4.7 · 89 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                        <span class="mini-swatch" style="background:#4B5563"></span>
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$169</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 3 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge sale">Sale</span>
+                                    <button class="wishlist-btn active" onclick="this.classList.toggle('active')">
+                                        <i class="fa-solid fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_velvet_dinner_jacket.jpg" alt="Velvet Dinner Jacket">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Dinner Jacket · Rental</span>
+                                    <h3 class="product-title">Burgundy Velvet Shawl</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>4.9 · 56 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#7F1D1D"></span>
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                        <span class="mini-swatch" style="background:#0D9488"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$189</span>
+                                            <span class="price-was">$219</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 4 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_pleated_dress_shirt.jpg" alt="Pleated Dress Shirt">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Shirt · Purchase</span>
+                                    <h3 class="product-title">Pleated Dress Shirt</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                                        <span>4.5 · 203 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#F8FAFC;border-color:#CBD5E1"></span>
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$39</span>
+                                            <span class="price-unit">one-time</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 5 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge">Premium</span>
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_midnight_blue_tuxedo.jpg" alt="Midnight Blue Tuxedo">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Tuxedo · Rental</span>
+                                    <h3 class="product-title">Midnight Blue Satin Lapel</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>4.9 · 178 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                        <span class="mini-swatch" style="background:#4B5563"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$179</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 6 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_silk_bow_tie_set.jpg" alt="Silk Bow Tie Set">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Accessory · Purchase</span>
+                                    <h3 class="product-title">Silk Bow Tie & Pocket Square</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>5.0 · 312 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                        <span class="mini-swatch" style="background:#7F1D1D"></span>
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$29</span>
+                                            <span class="price-unit">one-time</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 7 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge new">New In</span>
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_charcoal_three_piece_suit.jpg" alt="Charcoal Three-Piece Suit">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Suit · Rental</span>
+                                    <h3 class="product-title">Charcoal Three-Piece</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                                        <span>4.7 · 67 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#4B5563"></span>
+                                        <span class="mini-swatch" style="background:#1E3A8A"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$189</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 8 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_patent_leather_oxfords.jpg" alt="Patent Leather Oxfords">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Footwear · Rental</span>
+                                    <h3 class="product-title">Patent Leather Oxfords</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>4.8 · 145 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#0F172A"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$49</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 9 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <span class="product-badge">Limited</span>
+                                    <button class="wishlist-btn" onclick="this.classList.toggle('active')">
+                                        <i class="fa-regular fa-heart text-sm"></i>
+                                    </button>
+                                    <img src="assets/unsplash_white_dinner_jacket.jpg" alt="White Dinner Jacket">
+                                    <div class="quick-view">
+                                        <button class="w-full bg-white text-[#742A2A] py-2.5 rounded-xl font-bold text-xs hover:bg-gray-100 transition shadow-lg">
+                                            <i class="fa-regular fa-eye mr-1.5"></i> Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <span class="product-category">Dinner Jacket · Rental</span>
+                                    <h3 class="product-title">Ivory Wool Shawl Collar</h3>
+                                    <div class="product-meta">
+                                        <div class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <span>4.9 · 92 reviews</span>
+                                    </div>
+                                    <div class="product-swatches">
+                                        <span class="mini-swatch" style="background:#F8FAFC;border-color:#CBD5E1"></span>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <span class="price-now">$199</span>
+                                            <span class="price-unit">3-day rental</span>
+                                        </div>
+                                        <button class="add-btn" title="Add to cart">
+                                            <i class="fa-solid fa-plus text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-14 pt-8 border-t border-border">
+                            <p class="text-sm text-secondary-text">Showing <span class="font-bold text-primary-text">1–9</span> of <span class="font-bold text-primary-text">48</span> pieces</p>
+                            <div class="flex items-center gap-2">
+                                <button class="page-btn" disabled><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <span class="text-secondary-text px-1">…</span>
+                                <button class="page-btn">8</button>
+                                <button class="page-btn"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== TRUST BAR ======== -->
+        <section class="bg-hover border-t border-border">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fa-solid fa-scissors"></i></div>
+                        <h4 class="font-bold text-primary-text text-sm">Complimentary Alterations</h4>
+                        <p class="text-secondary-text text-xs">On every rental</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                        <h4 class="font-bold text-primary-text text-sm">Free Delivery</h4>
+                        <p class="text-secondary-text text-xs">On orders over $200</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                        <h4 class="font-bold text-primary-text text-sm">Easy Returns</h4>
+                        <p class="text-secondary-text text-xs">Prepaid return label</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fa-solid fa-headset"></i></div>
+                        <h4 class="font-bold text-primary-text text-sm">Style Support</h4>
+                        <p class="text-secondary-text text-xs">Mon–Sat 10am–7pm</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CLOSING STYLE CTA ======== -->
+        <section class="py-16 lg:py-20 bg-background">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="collection-banner p-8 sm:p-12 lg:p-14 text-center">
+                    <div class="relative z-10 max-w-2xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                            Need help choosing a look?
+                        </h2>
+                        <p class="text-white/70 text-sm sm:text-base mt-4 leading-relaxed">
+                            Our style team can help you find the right fit, finish, and accessories for your next occasion.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
+                            <a href="appointments.html" class="bg-white text-[#742A2A] px-7 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-check"></i> Book a Fitting
+                            </a>
+                            <a href="contact.html" class="border border-white/40 text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-white/10 transition inline-flex items-center gap-2">
+                                <i class="fa-solid fa-envelope"></i> Contact a Stylist
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======== MOBILE DRAWER ======== -->
+    <div id="mobile-menu-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+        <div id="drawer-content" class="absolute top-0 left-0 right-0 bg-background rounded-b-2xl shadow-2xl p-6 xl:hidden max-h-[85vh] overflow-y-auto transform translate-y-[-100%] transition-transform duration-300 ease-out">
+            <div class="flex justify-between items-center pb-4 border-b border-border">
+                <a href="index.html" class="flex items-center gap-3 group shrink-0">
+                    <div class="w-10 h-10 bg-[#111827] dark:bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                        <i class="fa-solid fa-user-tie text-white dark:text-[#111827] text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-baseline">
+                            <span class="text-xl font-extrabold tracking-tight text-primary-text leading-none font-sans">Black Tie</span>
+                        <span class="text-xl font-extrabold tracking-tight text-accent leading-none font-sans ml-1.5">House</span>
+                        </div>
+                        <span class="text-[9px] font-bold tracking-[0.15em] text-secondary-text uppercase mt-0.5">Formalwear & Tuxedo</span>
+                    </div>
+                </a>
+                <button id="mobile-menu-close" class="text-primary-text hover:text-accent"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <nav class="flex flex-col space-y-1.5 py-4">
+                <div>
+                    <button class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl w-full text-left flex justify-between items-center" id="mobile-home-toggle">
+                        <span>Home</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-200 text-primary-text" id="home-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="mobile-home-menu" class="hidden pl-4 flex flex-col space-y-1 mt-1 border-l-2 border-border">
+                        <a href="index.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Home 1</a>
+                        <a href="home2.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">About</a>
+                <a href="shop.html" class="mobile-nav-link active block font-semibold text-lg py-2.5 px-3 rounded-xl">Shop the Collection</a>
+                <a href="group-orders.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Group Orders</a>
+                <a href="appointments.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Fitting Appointments</a>
+                <a href="contact.html" class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl">Contact</a>
+                <div>
+                    <button class="mobile-nav-link block font-semibold text-lg py-2.5 px-3 rounded-xl w-full text-left flex justify-between items-center" id="mobile-dash-toggle">
+                        <span>Dashboard</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-200 text-primary-text" id="dash-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="mobile-dash-menu" class="hidden pl-4 flex flex-col space-y-1 mt-1 border-l-2 border-border">
+                        <a href="client.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Client</a>
+                        <a href="admin.html" class="mobile-nav-sublink block text-secondary-text hover:text-accent text-base py-1.5 px-2 rounded-lg">Admin</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="pt-4 border-t border-border mt-2 flex justify-around items-center">
+                <button id="drawer-rtl-toggle" class="flex flex-col items-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg><span class="text-xs mt-1 text-secondary-text">RTL</span></button>
+                <button id="drawer-theme-toggle" class="flex flex-col items-center">
+                    <svg class="w-6 h-6 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg class="w-6 h-6 dark-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <span class="text-xs mt-1 text-secondary-text">Theme</span>
+                </button>
+            </div>
+            <div class="flex mt-5 w-full">
+                <a href="login.html" class="w-full btn-primary text-center py-3 rounded-full font-bold text-sm shadow-sm">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== FOOTER ======== -->
+    <footer id="main-footer" class="pt-16 transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-800 text-center sm:text-left">
+                <div class="flex flex-col items-center sm:items-start">
+                    <a href="index.html" class="flex items-center justify-center sm:justify-start gap-3 group shrink-0 transition-transform duration-200 hover:scale-[1.02]">
+                        <div class="w-10 h-10 bg-white rounded-md flex items-center justify-center shadow-sm shrink-0">
+                            <i class="fa-solid fa-user-tie text-[#111827] text-xl"></i>
+                        </div>
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-baseline">
+                                <span class="text-2xl font-extrabold tracking-tight text-white leading-none font-sans">Black Tie</span>
+                        <span class="text-2xl font-extrabold tracking-tight text-[#E06666] leading-none font-sans ml-1.5">House</span>
+                            </div>
+                            <span class="text-[10px] font-bold tracking-[0.15em] text-gray-400 uppercase mt-1">Formalwear & Tuxedo</span>
+                        </div>
+                    </a>
+                    <p class="text-gray-400 text-sm mt-4 leading-relaxed max-w-sm sm:max-w-none">Specialty formalwear and tuxedo rentals for weddings, proms, and black-tie events.</p>
+                    <div class="flex justify-center sm:justify-start gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition text-xl"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="shop.html" class="footer-link text-gray-400 hover:text-accent transition">Shop Collection</a></li>
+                        <li><a href="group-orders.html" class="footer-link text-gray-400 hover:text-accent transition">Group Orders</a></li>
+                        <li><a href="appointments.html" class="footer-link text-gray-400 hover:text-accent transition">Fitting Appointments</a></li>
+                        <li><a href="pricing.html" class="footer-link text-gray-400 hover:text-accent transition">Rental Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="contact.html" class="footer-link text-gray-400 hover:text-accent transition">Contact</a></li>
+                        <li><a href="contact.html#faq" class="footer-link text-gray-400 hover:text-accent transition">FAQs</a></li>
+                        <li><a href="#" class="footer-link text-gray-400 hover:text-accent transition">Size Guide</a></li>
+                        <li><a href="#" class="footer-link text-gray-400 hover:text-accent transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading font-bold text-lg mb-5">Visit Us</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-map-marker-alt text-accent"></i> 456 Madison Ave, New York</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-phone text-accent"></i> (212) 555-7890</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-envelope text-accent"></i> style@blacktiehouse.com</li>
+                        <li class="flex items-center justify-center sm:justify-start gap-3"><i class="fas fa-clock text-accent"></i> Mon–Sat 10am – 7pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="py-8 text-center text-gray-500 text-sm">© 2026 Black Tie House. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- ======== SCRIPTS ======== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const html = document.documentElement;
+
+            // Mobile Drawer
+            const menuDrawer = document.getElementById('mobile-menu-drawer');
+            const menuContent = document.getElementById('drawer-content');
+            const menuBackdrop = document.getElementById('drawer-backdrop');
+
+            const openDrawer = () => {
+                menuDrawer.classList.remove('pointer-events-none');
+                menuContent.classList.remove('translate-y-[-100%]');
+                menuBackdrop.classList.add('opacity-50', 'pointer-events-auto');
+                document.body.style.overflow = 'hidden';
+            };
+            const closeDrawer = () => {
+                menuContent.classList.add('translate-y-[-100%]');
+                menuBackdrop.classList.remove('opacity-50', 'pointer-events-auto');
+                setTimeout(() => { menuDrawer.classList.add('pointer-events-none'); document.body.style.overflow = ''; }, 300);
+            };
+
+            document.getElementById('mobile-menu-open').addEventListener('click', openDrawer);
+            document.getElementById('mobile-menu-close').addEventListener('click', closeDrawer);
+            menuBackdrop.addEventListener('click', closeDrawer);
+
+            // Mobile Accordion
+            const setupAccordion = (toggleId, menuId, iconId) => {
+                const toggle = document.getElementById(toggleId);
+                toggle?.addEventListener('click', () => {
+                    const menu = document.getElementById(menuId);
+                    const icon = document.getElementById(iconId);
+                    if(menu) menu.classList.toggle('hidden');
+                    if(icon) icon.classList.toggle('rotate-180');
+                });
+            };
+            setupAccordion('mobile-home-toggle', 'mobile-home-menu', 'home-icon');
+            setupAccordion('mobile-dash-toggle', 'mobile-dash-menu', 'dash-icon');
+
+            // Theme Toggle
+            const themeToggles = [document.getElementById('theme-toggle'), document.getElementById('drawer-theme-toggle')];
+            const applyTheme = (theme) => {
+                html.setAttribute('data-theme', theme);
+                document.querySelectorAll('.light-icon').forEach(i => i.classList.toggle('hidden', theme === 'dark'));
+                document.querySelectorAll('.dark-icon').forEach(i => i.classList.toggle('hidden', theme === 'light'));
+            };
+            themeToggles.forEach(btn => btn?.addEventListener('click', () => {
+                const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', next);
+                applyTheme(next);
+            }));
+            applyTheme(localStorage.getItem('theme') || 'light');
+
+            // RTL Toggle
+            const rtlToggles = [document.getElementById('rtl-toggle'), document.getElementById('drawer-rtl-toggle')];
+            rtlToggles.forEach(btn => btn?.addEventListener('click', () => {
+                const current = html.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+                html.setAttribute('dir', current);
+                localStorage.setItem('dir', current);
+            }));
+            const savedDir = localStorage.getItem('dir');
+            if (savedDir) html.setAttribute('dir', savedDir);
+
+            // Active Nav Logic
+            const setActiveNavLink = () => {
+                const currentPath = window.location.pathname.split('/').pop() || 'shop.html';
+                document.querySelectorAll('.dropdown-menu a[href]').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === currentPath);
+                });
+                document.querySelector('.home-nav-link')?.classList.toggle('active', ['index.html', 'home2.html'].includes(currentPath));
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.classList.contains('home-nav-link')) return;
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                document.querySelectorAll('.mobile-nav-sublink').forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                if (['client.html', 'admin.html', 'dashboard.html'].includes(currentPath)) {
+                    document.getElementById('mobile-dash-toggle')?.classList.add('active');
+                    document.getElementById('mobile-dash-menu')?.classList.remove('hidden');
+                    document.getElementById('dash-icon')?.classList.add('rotate-180');
+                }
+                if (['index.html', 'home2.html', ''].includes(currentPath)) {
+                    document.getElementById('mobile-home-toggle')?.classList.add('active');
+                    document.getElementById('mobile-home-menu')?.classList.remove('hidden');
+                    document.getElementById('home-icon')?.classList.add('rotate-180');
+                }
+            };
+            setActiveNavLink();
+
+            // Toolbar chips (toggle active)
+            document.querySelectorAll('.toolbar-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    if (chip.textContent.trim() === 'Filters') return;
+                    chip.parentElement.querySelectorAll('.toolbar-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                });
+            });
+
+            // Color swatches
+            document.querySelectorAll('.swatch').forEach(sw => {
+                sw.addEventListener('click', () => {
+                    sw.parentElement.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+                    sw.classList.add('active');
+                });
+            });
+
+            // Wishlist buttons
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const icon = btn.querySelector('i');
+                    if (btn.classList.contains('active')) {
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                    } else {
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                    }
+                });
+            });
+
+            // Filter group collapse
+            document.querySelectorAll('.filter-group-title').forEach(title => {
+                title.addEventListener('click', () => {
+                    const icon = title.querySelector('i');
+                    const group = title.nextElementSibling;
+                    if (group) {
+                        group.style.display = group.style.display === 'none' ? '' : 'none';
+                        icon.style.transform = group.style.display === 'none' ? 'rotate(180deg)' : '';
+                    }
+                });
+            });
+
+            // Pagination
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                if (btn.disabled || btn.querySelector('i')) return;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
