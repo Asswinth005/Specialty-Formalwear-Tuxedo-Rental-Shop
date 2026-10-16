@@ -1,6 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#111827"/>
-  <circle cx="32" cy="18" r="9" fill="#fff"/>
-  <path d="M12 55c0-12 8-21 20-21s20 9 20 21v2H12z" fill="#fff"/>
-  <path d="m28 35 4 4 4-4 3 15-7-4-7 4z" fill="#9B2C2C"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Outer Rounded Square with Subtle Wine Border -->
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" stroke="#9B2C2C" stroke-opacity="0.45" stroke-width="1.5"/>
+
+  <!-- Tuxedo Wing Collar Tips -->
+  <path d="M22 17L28 24H25L19 17H22Z" fill="#CBD5E1"/>
+  <path d="M42 17L36 24H39L45 17H42Z" fill="#CBD5E1"/>
+
+  <!-- Left Bowtie Wing -->
+  <path d="M15 22.5L27 28.5V35.5L15 41.5C13.2 42.4 11 41.1 11 39.1V24.9C11 22.9 13.2 21.6 15 22.5Z" fill="#FFFFFF"/>
+  <path d="M14 26L25 30.5V33.5L14 38C13 38.4 12 37.8 12 36.8V27.2C12 26.2 13 25.6 14 26Z" fill="#F8FAFC"/>
+  <path d="M16 29L24 32V33L16 35" stroke="#E2E8F0" stroke-width="0.75" stroke-linecap="round"/>
+
+  <!-- Right Bowtie Wing -->
+  <path d="M49 22.5L37 28.5V35.5L49 41.5C50.8 42.4 53 41.1 53 39.1V24.9C53 22.9 50.8 21.6 49 22.5Z" fill="#FFFFFF"/>
+  <path d="M50 26L39 30.5V33.5L50 38C51 38.4 52 37.8 52 36.8V27.2C52 26.2 51 25.6 50 26Z" fill="#F8FAFC"/>
+  <path d="M48 29L40 32V33L48 35" stroke="#E2E8F0" stroke-width="0.75" stroke-linecap="round"/>
+
+  <!-- Center Knot (Deep Wine Velvet Accent) -->
+  <rect x="28" y="27.5" width="8" height="9" rx="2.5" fill="#9B2C2C"/>
+  <rect x="29.5" y="29" width="5" height="6" rx="1.5" fill="#C53030"/>
+  <line x1="32" y1="29.5" x2="32" y2="34.5" stroke="#FC8181" stroke-width="0.75" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Tuxedo V-Neck / Stud Accent below -->
+  <circle cx="32" cy="48" r="1.5" fill="#94A3B8"/>
 </svg>
