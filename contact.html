@@ -69,28 +69,29 @@
         }
 
         .contact-hero {
-            background:
-                repeating-linear-gradient(90deg, rgba(155, 44, 44, 0.035) 0 1px, transparent 1px 28px),
-                radial-gradient(ellipse at 50% 0%, rgba(155, 44, 44, 0.18), var(--color-background) 75%);
+            position: relative;
+            overflow: hidden;
+            background-color: #0F172A;
+            background-image:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.70) 50%, rgba(11, 17, 32, 0.92) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.82) 0%, rgba(30, 41, 59, 0.60) 55%, rgba(116, 42, 42, 0.70) 130%),
+                url('assets/hero_tuxedo_shop.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
         }
         html[data-theme='dark'] .contact-hero {
-            background:
-                repeating-linear-gradient(90deg, rgba(229, 62, 62, 0.055) 0 1px, transparent 1px 28px),
-                radial-gradient(ellipse at 50% 0%, rgba(229, 62, 62, 0.18), var(--color-background) 75%);
+            background-color: #0B1120;
+            background-image:
+                linear-gradient(180deg, rgba(11, 17, 32, 0.88) 0%, rgba(15, 23, 42, 0.76) 50%, rgba(11, 17, 32, 0.95) 100%),
+                linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(30, 41, 59, 0.70) 55%, rgba(116, 42, 42, 0.75) 130%),
+                url('assets/hero_tuxedo_shop.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
         }
         .contact-hero-mark {
-            position: absolute;
-            z-index: 0;
-            color: var(--color-accent);
-            opacity: 0.16;
-            pointer-events: none;
-        }
-        .contact-hero-mark-tailor { left: 8%; top: 22%; font-size: 4rem; transform: rotate(-12deg); }
-        .contact-hero-mark-vest { right: 8%; top: 28%; font-size: 4.5rem; transform: rotate(10deg); }
-        .contact-hero-mark-scissors { left: 17%; bottom: 18%; font-size: 3rem; transform: rotate(-18deg); }
-        .contact-hero-mark-ruler { right: 17%; bottom: 18%; font-size: 3rem; transform: rotate(12deg); }
-        @media (max-width: 640px) {
-            .contact-hero-mark { display: none; }
+            display: none;
         }
 
         ::-webkit-scrollbar { width: 10px; }
@@ -419,35 +420,31 @@
     <main class="flex-grow">
 
         <!-- ======== HERO / BREADCRUMB ======== -->
-        <section class="contact-hero border-b border-border py-28 lg:py-32 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-2xl"></div>
-            <i class="fa-solid fa-user-tie contact-hero-mark contact-hero-mark-tailor" aria-hidden="true"></i>
-            <i class="fa-solid fa-vest contact-hero-mark contact-hero-mark-vest" aria-hidden="true"></i>
-            <i class="fa-solid fa-scissors contact-hero-mark contact-hero-mark-scissors" aria-hidden="true"></i>
-            <i class="fa-solid fa-ruler-combined contact-hero-mark contact-hero-mark-ruler" aria-hidden="true"></i>
+        <section class="contact-hero border-b border-border py-24 sm:py-28 lg:py-32 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-sm font-bold text-accent mb-4 uppercase tracking-wider">
-                    <i class="fa-solid fa-headset"></i> We're Here to Help
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-bold text-rose-200 mb-4 uppercase tracking-wider backdrop-blur-md shadow-sm">
+                    <i class="fa-solid fa-headset text-accent"></i> We're Here to Help
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-text leading-tight">
-                    Get In <span class="text-accent">Touch</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight drop-shadow-md">
+                    Get In <span class="text-accent" style="color: #FC8181;">Touch</span>
                 </h1>
-                <p class="text-lg text-secondary-text max-w-2xl mx-auto mt-4 leading-relaxed">
+                <p class="text-base sm:text-lg lg:text-xl text-slate-100 max-w-2xl mx-auto mt-4 leading-relaxed font-normal drop-shadow">
                     Have a question about rentals, fittings, or group orders? Our team is ready to help you look your best for the big day.
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-                    <a href="tel:+12125557890" class="btn-primary px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                    <a href="tel:+12125557890" class="btn-primary px-8 py-3.5 rounded-full font-bold text-sm inline-flex items-center gap-2 shadow-xl shadow-accent/30 hover:scale-105 transition-all">
                         <i class="fa-solid fa-phone"></i> Call Us
                     </a>
-                    <a href="appointments.html" class="btn-outline px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                    <a href="appointments.html" class="px-8 py-3.5 rounded-full font-bold text-sm inline-flex items-center gap-2 border border-white/40 text-white bg-white/10 hover:bg-white hover:text-gray-900 backdrop-blur-md transition-all shadow-sm hover:scale-105">
                         <i class="fa-solid fa-calendar-check"></i> Book a Fitting
                     </a>
                 </div>
-                <nav class="mt-6 flex items-center justify-center gap-2 text-sm text-secondary-text">
-                    <a href="index.html" class="hover:text-accent transition">Home</a>
-                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                    <span class="text-accent font-semibold">Contact</span>
+                <nav class="mt-8 flex items-center justify-center gap-2 text-sm text-slate-300">
+                    <a href="index.html" class="hover:text-white transition">Home</a>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+                    <span class="text-white font-semibold">Contact</span>
                 </nav>
             </div>
         </section>

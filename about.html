@@ -69,24 +69,26 @@
         }
 
         .about-hero {
-            background: linear-gradient(125deg, rgba(155, 44, 44, 0.12), rgba(248, 250, 252, 0.88) 52%, var(--color-background));
+            position: relative;
+            background-color: #0F172A;
+            background-image:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.72) 45%, rgba(11, 17, 32, 0.92) 100%),
+                url('assets/hero_tuxedo_shop.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
         }
         html[data-theme='dark'] .about-hero {
-            background: linear-gradient(125deg, rgba(229, 62, 62, 0.18), rgba(30, 41, 59, 0.92) 52%, var(--color-background));
+            background-color: #0B1120;
+            background-image:
+                linear-gradient(180deg, rgba(11, 17, 32, 0.88) 0%, rgba(15, 23, 42, 0.80) 45%, rgba(11, 17, 32, 0.95) 100%),
+                url('assets/hero_tuxedo_shop.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
         }
         .about-hero-mark {
-            position: absolute;
-            z-index: 0;
-            color: var(--color-accent);
-            opacity: 0.16;
-            pointer-events: none;
-        }
-        .about-hero-mark-gem { left: 8%; top: 24%; font-size: 4rem; transform: rotate(-12deg); }
-        .about-hero-mark-shirt { right: 8%; top: 20%; font-size: 4.5rem; transform: rotate(9deg); }
-        .about-hero-mark-award { left: 17%; bottom: 18%; font-size: 3rem; transform: rotate(-14deg); }
-        .about-hero-mark-ruler { right: 17%; bottom: 18%; font-size: 3rem; transform: rotate(12deg); }
-        @media (max-width: 640px) {
-            .about-hero-mark { display: none; }
+            display: none;
         }
 
         ::-webkit-scrollbar { width: 10px; }
@@ -411,35 +413,31 @@
     <main class="flex-grow">
 
         <!-- ======== HERO / BREADCRUMB ======== -->
-        <section class="about-hero border-b border-border py-28 lg:py-32 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-2xl"></div>
-            <i class="fa-solid fa-gem about-hero-mark about-hero-mark-gem" aria-hidden="true"></i>
-            <i class="fa-solid fa-shirt about-hero-mark about-hero-mark-shirt" aria-hidden="true"></i>
-            <i class="fa-solid fa-award about-hero-mark about-hero-mark-award" aria-hidden="true"></i>
-            <i class="fa-solid fa-ruler-combined about-hero-mark about-hero-mark-ruler" aria-hidden="true"></i>
+        <section class="about-hero border-b border-border py-24 sm:py-28 lg:py-32 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-sm font-bold text-accent mb-4 uppercase tracking-wider">
-                    <i class="fa-solid fa-gem"></i> Est. 1987
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-bold text-rose-200 mb-4 uppercase tracking-wider backdrop-blur-md shadow-sm">
+                    <i class="fa-solid fa-gem text-accent"></i> Est. 1987
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-text leading-tight">
-                    Our <span class="text-accent">Story</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight drop-shadow-md">
+                    Our <span class="text-accent" style="color: #FC8181;">Story</span>
                 </h1>
-                <p class="text-lg text-secondary-text max-w-2xl mx-auto mt-4 leading-relaxed">
+                <p class="text-base sm:text-lg lg:text-xl text-slate-100 max-w-2xl mx-auto mt-4 leading-relaxed font-normal drop-shadow">
                     Three decades of dressing gentlemen for life's most important moments — with care, craft, and an unwavering eye for detail.
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-                    <a href="appointments.html" class="btn-primary px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                    <a href="appointments.html" class="btn-primary px-8 py-3.5 rounded-full font-bold text-sm inline-flex items-center gap-2 shadow-xl shadow-accent/30 hover:scale-105 transition-all">
                         <i class="fa-solid fa-calendar-check"></i> Book a Fitting
                     </a>
-                    <a href="contact.html" class="btn-outline px-7 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2">
+                    <a href="contact.html" class="px-8 py-3.5 rounded-full font-bold text-sm inline-flex items-center gap-2 border border-white/30 text-white bg-white/10 hover:bg-white hover:text-gray-900 backdrop-blur-md transition-all duration-200 shadow-sm hover:scale-105">
                         <i class="fa-solid fa-envelope"></i> Contact Us
                     </a>
                 </div>
-                <nav class="mt-6 flex items-center justify-center gap-2 text-sm text-secondary-text">
-                    <a href="index.html" class="hover:text-accent transition">Home</a>
-                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                    <span class="text-accent font-semibold">About</span>
+                <nav class="mt-8 flex items-center justify-center gap-2 text-sm text-slate-300">
+                    <a href="index.html" class="hover:text-white transition">Home</a>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+                    <span class="text-white font-semibold">About</span>
                 </nav>
             </div>
         </section>
@@ -457,7 +455,7 @@
                         </div>
                         <div class="space-y-4 pt-8">
                             <div class="img-placeholder h-40 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/premium_collections.jpg');"></div>
-                            <div class="img-placeholder h-56 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/hero_tuxedo_shop.jpg');"></div>
+                            <div class="img-placeholder h-56 rounded-2xl border border-border shadow-lg" style="background-image: url('assets/suit_collection.jpg');"></div>
                         </div>
                     </div>
                   
@@ -538,40 +536,70 @@
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                 <!-- Value 1 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-scissors"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Masterful Craftsmanship</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">Every garment is inspected, pressed, and adjusted by hand. We uphold the traditions of Italian tailoring passed down through generations.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/master_tailoring.jpg" alt="Masterful Craftsmanship" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Masterful Craftsmanship</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">Every garment is inspected, pressed, and adjusted by hand. We uphold the traditions of Italian tailoring passed down through generations.</p>
+                    </div>
                 </div>
                 <!-- Value 2 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-handshake"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Personal Service</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">From the first consultation to the final fitting, you work with a dedicated style advisor who understands your vision and occasion.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/group_orders.jpg" alt="Personal Service" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Personal Service</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">From the first consultation to the final fitting, you work with a dedicated style advisor who understands your vision and occasion.</p>
+                    </div>
                 </div>
                 <!-- Value 3 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-crown"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Premium Quality</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">We source the finest fabrics — Italian wool, Egyptian cotton, silk linings — from the same mills used by world-class fashion houses.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/premium_collections.jpg" alt="Premium Quality" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Premium Quality</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">We source the finest fabrics — Italian wool, Egyptian cotton, silk linings — from the same mills used by world-class fashion houses.</p>
+                    </div>
                 </div>
                 <!-- Value 4 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-users"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Group Excellence</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">Wedding parties, proms, corporate events — we've perfected the art of coordinating style for groups of any size, stress-free.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/wedding_orders.jpg" alt="Group Excellence" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Group Excellence</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">Wedding parties, proms, corporate events — we've perfected the art of coordinating style for groups of any size, stress-free.</p>
+                    </div>
                 </div>
                 <!-- Value 5 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-leaf"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Sustainable Fashion</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">Renting formalwear is inherently sustainable. We extend each garment's life through expert care, reducing waste in the fashion industry.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/o8.jpg" alt="Sustainable Fashion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Sustainable Fashion</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">Renting formalwear is inherently sustainable. We extend each garment's life through expert care, reducing waste in the fashion industry.</p>
+                    </div>
                 </div>
                 <!-- Value 6 -->
-                <div class="feature-card flex flex-col">
-                    <div class="icon-circle mb-5"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="text-xl font-bold text-primary-text">Fit Guarantee</h3>
-                    <p class="text-secondary-text mt-3 leading-relaxed">Not satisfied with the fit? Our tailors will re-adjust your garment on the spot — at no additional charge. Your confidence is our commitment.</p>
+                <div class="feature-card !p-0 overflow-hidden flex flex-col group">
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden">
+                        <img src="assets/test_step4.jpg" alt="Fit Guarantee" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-primary-text">Fit Guarantee</h3>
+                        <p class="text-secondary-text mt-3 leading-relaxed">Not satisfied with the fit? Our tailors will re-adjust your garment on the spot — at no additional charge. Your confidence is our commitment.</p>
+                    </div>
                 </div>
             </div>
         </section>

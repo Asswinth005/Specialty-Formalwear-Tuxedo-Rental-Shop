@@ -246,21 +246,27 @@
         .page-hero {
             position: relative;
             overflow: hidden;
-            min-height: 520px;
+            min-height: 540px;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #742A2A 130%);
+            background-color: #0F172A;
+            background-image:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.80) 0%, rgba(15, 23, 42, 0.68) 50%, rgba(11, 17, 32, 0.90) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.82) 0%, rgba(30, 41, 59, 0.60) 55%, rgba(116, 42, 42, 0.70) 130%),
+                url('assets/premium_collections.jpg');
+            background-size: cover;
+            background-position: center 38%;
+            background-repeat: no-repeat;
         }
-        .page-hero::before {
-            content: none;
-        }
-        .page-hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 80px;
-            background: linear-gradient(to top, var(--color-background), transparent);
-            z-index: 2;
+        html[data-theme='dark'] .page-hero {
+            background-color: #0B1120;
+            background-image:
+                linear-gradient(180deg, rgba(11, 17, 32, 0.86) 0%, rgba(15, 23, 42, 0.74) 50%, rgba(11, 17, 32, 0.95) 100%),
+                linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(30, 41, 59, 0.70) 55%, rgba(116, 42, 42, 0.75) 130%),
+                url('assets/premium_collections.jpg');
+            background-size: cover;
+            background-position: center 38%;
+            background-repeat: no-repeat;
         }
         .page-hero > * {
             position: relative;
@@ -820,39 +826,41 @@
     <main class="flex-grow">
 
         <!-- ======== PAGE HERO ======== -->
-        <section class="page-hero">
+        <section class="page-hero border-b border-border">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 text-center">
-                <nav class="flex items-center justify-center gap-2 text-xs text-white/60 mb-8">
+                <nav class="flex items-center justify-center gap-2 text-xs text-white/70 mb-8">
                     <a href="index.html" class="hover:text-white transition font-medium">Home</a>
                     <i class="fa-solid fa-chevron-right text-[8px] opacity-60"></i>
                     <span class="text-white font-semibold">Shop the Collection</span>
                 </nav>
                 <div class="max-w-3xl mx-auto">
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05] mt-4">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05] mt-4 drop-shadow-md">
                         Dressed for the <span class="italic" style="color: #FC8181;">occasion</span>
                     </h1>
-                    <p class="text-white/70 text-base sm:text-lg lg:text-xl mt-6 max-w-xl mx-auto leading-relaxed">
+                    <p class="text-white/85 text-base sm:text-lg lg:text-xl mt-6 max-w-xl mx-auto leading-relaxed drop-shadow-sm font-normal">
                         From timeless tuxedos to modern slim-fit suits — every piece is tailored, curated, and ready for your next milestone.
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
-                    <a href="#products" class="btn-primary px-8 py-3.5 rounded-full font-bold text-sm shadow-lg inline-flex items-center gap-2">
+                    <a href="#products" class="btn-primary px-8 py-3.5 rounded-full font-bold text-sm shadow-xl shadow-accent/30 inline-flex items-center gap-2 hover:scale-105 transition-all">
                         Browse Collection <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
-                    <a href="appointments.html" class="btn-outline px-8 py-3.5 rounded-full font-bold text-sm border-white/40 text-white hover:bg-white hover:text-[#742A2A]">
+                    <a href="appointments.html" class="px-8 py-3.5 rounded-full font-bold text-sm border border-white/40 text-white bg-white/10 hover:bg-white hover:text-[#742A2A] backdrop-blur-md transition-all shadow-sm hover:scale-105">
                         Book a Fitting
                     </a>
                 </div>
                 <div class="flex flex-wrap items-center justify-center gap-6 mt-12 pt-6 border-t border-white/15">
-                    <div class="flex items-center gap-2 text-sm text-white/70">
+                    <div class="flex items-center gap-2 text-sm text-white/85 drop-shadow-sm">
                         <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
                         <span><span class="font-bold text-white">48</span> curated pieces</span>
                     </div>
-                    <div class="flex items-center gap-2 text-sm text-white/70">
+                    <div class="flex items-center gap-2 text-sm text-white/85 drop-shadow-sm">
                         <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
                         <span>Free alterations on all rentals</span>
                     </div>
-                    <div class="flex items-center gap-2 text-sm text-white/70">
+                    <div class="flex items-center gap-2 text-sm text-white/85 drop-shadow-sm">
                         <i class="fa-solid fa-circle-check" style="color: #FC8181;"></i>
                         <span>Rent or purchase</span>
                     </div>
